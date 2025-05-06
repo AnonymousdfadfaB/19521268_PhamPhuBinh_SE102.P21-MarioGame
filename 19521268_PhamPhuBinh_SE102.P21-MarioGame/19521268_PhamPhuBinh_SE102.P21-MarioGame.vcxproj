@@ -193,6 +193,7 @@
     <Image Include="textures\enemies.png" />
     <Image Include="textures\mario.png" />
     <Image Include="textures\misc.png" />
+    <Image Include="textures\misc_scene.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

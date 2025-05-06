@@ -177,5 +177,8 @@
     <Image Include="textures\misc.png">
       <Filter>textures</Filter>
     </Image>
+    <Image Include="textures\misc_scene.png">
+      <Filter>textures</Filter>
+    </Image>
   </ItemGroup>
 </Project>
