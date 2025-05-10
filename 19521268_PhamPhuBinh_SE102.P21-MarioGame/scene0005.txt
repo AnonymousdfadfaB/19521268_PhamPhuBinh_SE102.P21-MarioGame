@@ -5,6 +5,10 @@ coin.txt
 cloud.txt
 brick.txt
 platform.txt
+questionblock.txt
+mushroom.txt
+goomba.txt
+leaf.txt
 #
 [OBJECTS]
 # type	x	y	extra_settings per object type
@@ -39,6 +43,9 @@ platform.txt
 
 #Platform
 5 	8	49.5	16	15	84	41000	42000	43000
+#Question Block
+6	50	-20
+
 #Portal 
 50	200	160	216	180	1
 

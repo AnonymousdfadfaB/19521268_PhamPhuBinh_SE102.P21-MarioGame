@@ -1,5 +1,18 @@
 #include "Coin.h"
 
+
+void CCoin::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
+{
+	if (type == BOUNCE_COIN)
+	{
+		y += vy * dt;
+		vy += ACCEL_GRAVITY * dt;
+		if (vy >= 0)
+		{
+			isDeleted = true;
+		}
+	}
+}
 void CCoin::Render()
 {
 	CAnimations* animations = CAnimations::GetInstance();

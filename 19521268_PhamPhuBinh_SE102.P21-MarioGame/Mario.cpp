@@ -7,8 +7,10 @@
 #include "Goomba.h"
 #include "Coin.h"
 #include "Portal.h"
-
+#include "QuestionBlock.h"
 #include "Collision.h"
+#include "Mushroom.h"
+#include "Leaf.h"
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
@@ -53,6 +55,12 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithCoin(e);
 	else if (dynamic_cast<CPortal*>(e->obj))
 		OnCollisionWithPortal(e);
+	else if (dynamic_cast<CQuestionBlock*>(e->obj))
+		OnCollisionWithQuestionBlock(e);
+	else if (dynamic_cast<CMushroom*>(e->obj))
+		OnCollisionWithMushroom(e);	
+	else if (dynamic_cast<CLeaf*>(e->obj))
+		OnCollisionWithLeaf(e);
 }
 
 void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
@@ -100,7 +108,69 @@ void CMario::OnCollisionWithPortal(LPCOLLISIONEVENT e)
 	CPortal* p = (CPortal*)e->obj;
 	CGame::GetInstance()->InitiateSwitchScene(p->GetSceneId());
 }
+void CMario::OnCollisionWithQuestionBlock(LPCOLLISIONEVENT e)
+{
+	CQuestionBlock* questionBlock = dynamic_cast<CQuestionBlock*>(e->obj);
 
+	// jump on top >> kill Goomba and deflect a bit 
+	if (!questionBlock->IsHit() && e->ny > 0) {
+		questionBlock->Hit();
+		if (questionBlock->IsQuestionBlockContainCoin()) {
+			coin++;
+			questionBlock->GenerateCoin();
+		}
+		else if (questionBlock->IsQuestionBlockContainRedMushroom())
+		{
+			questionBlock->GenerateRedMushroom();
+		}
+		else if (questionBlock->IsQuestionBlockContainGreenMushroom()) {
+			questionBlock->GenerateGreenMushroom();
+		}
+		else if (questionBlock->IsQuestionBlockContainLeaf()) {
+			questionBlock->GenerateLeaf();
+		}
+	}
+}
+void CMario::OnCollisionWithMushroom(LPCOLLISIONEVENT e)
+{
+	CMushroom* mushroom = dynamic_cast<CMushroom*>(e->obj);
+
+	// jump on top >> kill Goomba and deflect a bit 
+	if (mushroom->IsRedMushroom())
+	{
+		if (level == MARIO_LEVEL_SMALL)
+		{
+			level = MARIO_LEVEL_BIG;
+			y -= (MARIO_BIG_BBOX_HEIGHT - MARIO_SMALL_BBOX_HEIGHT) / 2;
+			mushroom->Delete();
+		}
+	}
+	else if (mushroom->IsGreenMushroom())
+	{
+
+	}
+
+}
+void CMario::OnCollisionWithMushroom(LPCOLLISIONEVENT e)
+{
+	CMushroom* mushroom = dynamic_cast<CMushroom*>(e->obj);
+
+	// jump on top >> kill Goomba and deflect a bit 
+	if (mushroom->IsRedMushroom())
+	{
+		if (level == MARIO_LEVEL_SMALL)
+		{
+			level = MARIO_LEVEL_BIG;
+			y -= (MARIO_BIG_BBOX_HEIGHT - MARIO_SMALL_BBOX_HEIGHT) / 2;
+			mushroom->Delete();
+		}
+	}
+	else if (mushroom->IsGreenMushroom())
+	{
+
+	}
+
+}
 //
 // Get animation ID for small Mario
 //
