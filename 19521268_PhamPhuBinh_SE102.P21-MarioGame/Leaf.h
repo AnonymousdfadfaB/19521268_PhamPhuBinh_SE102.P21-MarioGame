@@ -5,8 +5,9 @@
 #include "Animations.h"
 
 
-#define LEAF_HORIZONTAL_VELOCITY 0.1f
+#define LEAF_CYCLE 512
 #define LEAF_GRAVITY 0.00002f
+#define PI 3.1415926535897932f
 #define ID_SPRI_LEAF 70001
 #define LEAF_AMPLITUDE 25
 #define LEAF_BBOX_WIDTH 16
@@ -18,7 +19,7 @@ protected:
 public:
 	CLeaf(float x, float y) : CGameObject(x, y)
 	{
-		this->vx = LEAF_HORIZONTAL_VELOCITY;
+		//this->vx = LEAF_HORIZONTAL_VELOCITY;
 
 	}
 	void Render();

@@ -7,9 +7,11 @@ void CLeaf::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	static float originalX = x;
 	static float time = 0.0f;
 	time += dt;
-	x = originalX + LEAF_AMPLITUDE * sin(3.14 / 2 * time);
+	x = originalX + LEAF_AMPLITUDE * sin(2 * PI / LEAF_CYCLE * time);
 	y += vy * dt;
+
 	vy += LEAF_GRAVITY * dt;
+	vx = 2 * PI / LEAF_CYCLE * LEAF_AMPLITUDE * cos(2 * 3.14 / LEAF_CYCLE * time);
 	//how to delete leaf
 }
 void CLeaf::Render()

@@ -14,6 +14,8 @@
 
 #define MARIO_JUMP_SPEED_Y		0.5f
 #define MARIO_JUMP_RUN_SPEED_Y	0.6f
+#define MARIO_FLY_SPEED_Y	0.5f
+#define MARIO_SLIGHTLY_FLY_SPEED_Y	0.1f
 
 #define MARIO_GRAVITY			0.002f
 
@@ -26,6 +28,13 @@
 
 #define MARIO_STATE_JUMP			300
 #define MARIO_STATE_RELEASE_JUMP    301
+
+#define MARIO_STATE_FLY				700
+#define MARIO_STATE_LIGHTLY_FLY		701
+
+#define MARIO_STATE_GLIDE_LEFT		800
+#define MARIO_STATE_GLIDE_RIGHT		801
+#define	MARIO_STATE_FALL			802
 
 #define MARIO_STATE_RUNNING_RIGHT	400
 #define MARIO_STATE_RUNNING_LEFT	500
@@ -77,7 +86,27 @@
 
 #define ID_ANI_MARIO_SMALL_JUMP_RUN_RIGHT 1600
 #define ID_ANI_MARIO_SMALL_JUMP_RUN_LEFT 1601
+// RACCOON MARIO
+#define ID_ANI_MARIO_RACCOON_IDLE_RIGHT 2100
+#define ID_ANI_MARIO_RACCOON_IDLE_LEFT 2101
 
+#define ID_ANI_MARIO_RACCOON_WALKING_RIGHT 2200
+#define ID_ANI_MARIO_RACCOON_WALKING_LEFT 2201
+
+#define ID_ANI_MARIO_RACCOON_RUNNING_RIGHT 2300
+#define ID_ANI_MARIO_RACCOON_RUNNING_LEFT 2301
+
+#define ID_ANI_MARIO_RACCOON_BRACE_RIGHT 2400
+#define ID_ANI_MARIO_RACCOON_BRACE_LEFT 2401
+
+#define ID_ANI_MARIO_RACCOON_JUMP_WALK_RIGHT 2500
+#define ID_ANI_MARIO_RACCOON_JUMP_WALK_LEFT 2501
+
+#define ID_ANI_MARIO_RACCOON_JUMP_RUN_RIGHT 2600
+#define ID_ANI_MARIO_RACCOON_JUMP_RUN_LEFT 2601
+
+#define ID_ANI_MARIO_RACCOON_SIT_RIGHT 2700
+#define ID_ANI_MARIO_RACCOON_SIT_LEFT 2701
 #pragma endregion
 
 #define GROUND_Y 160.0f
@@ -87,17 +116,25 @@
 
 #define	MARIO_LEVEL_SMALL	1
 #define	MARIO_LEVEL_BIG		2
+#define MARIO_LEVEL_RACCOON	3
 
 #define MARIO_BIG_BBOX_WIDTH  14
 #define MARIO_BIG_BBOX_HEIGHT 24
 #define MARIO_BIG_SITTING_BBOX_WIDTH  14
 #define MARIO_BIG_SITTING_BBOX_HEIGHT 16
 
-#define MARIO_SIT_HEIGHT_ADJUST ((MARIO_BIG_BBOX_HEIGHT-MARIO_BIG_SITTING_BBOX_HEIGHT)/2)
+#define MARIO_BIG_SIT_HEIGHT_ADJUST ((MARIO_BIG_BBOX_HEIGHT-MARIO_BIG_SITTING_BBOX_HEIGHT)/2)
 
 #define MARIO_SMALL_BBOX_WIDTH  13
 #define MARIO_SMALL_BBOX_HEIGHT 12
 
+#define MARIO_RACCOON_BBOX_WIDTH  19
+#define MARIO_RACCOON_BBOX_HEIGHT 26
+#define MARIO_RACCOON_SITTING_BBOX_WIDTH  19
+#define MARIO_RACCOON_SITTING_BBOX_HEIGHT 17
+
+#define MARIO_RACCOON_SIT_HEIGHT_ADJUST ((MARIO_RACCOON_BBOX_HEIGHT - MARIO_RACCOON_SITTING_BBOX_HEIGHT)/2)
+//width height of mario raccoon 19, 26
 
 #define MARIO_UNTOUCHABLE_TIME 2500
 
@@ -119,8 +156,10 @@ class CMario : public CGameObject
 	void OnCollisionWithPortal(LPCOLLISIONEVENT e);
 	void OnCollisionWithQuestionBlock(LPCOLLISIONEVENT e);
 	void OnCollisionWithMushroom(LPCOLLISIONEVENT e);
+	void OnCollisionWithLeaf(LPCOLLISIONEVENT e);
 	int GetAniIdBig();
 	int GetAniIdSmall();
+	int GetAniIdRaccoon();
 
 public:
 	CMario(float x, float y) : CGameObject(x, y)
@@ -130,7 +169,7 @@ public:
 		ax = 0.0f;
 		ay = MARIO_GRAVITY; 
 
-		level = MARIO_LEVEL_SMALL;
+		level = MARIO_LEVEL_RACCOON;
 		untouchable = 0;
 		untouchable_start = -1;
 		isOnPlatform = false;
@@ -154,4 +193,8 @@ public:
 	void StartUntouchable() { untouchable = 1; untouchable_start = GetTickCount64(); }
 
 	void GetBoundingBox(float& left, float& top, float& right, float& bottom);
+
+	int GetLevel() { return level; }
+	bool IsOnPlatform() { return isOnPlatform; }
+	float GetVx() { return vx; }
 };
