@@ -87,6 +87,12 @@
     <ClCompile Include="Leaf.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Koopa.h">
+      <Filter>Header Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Koopa.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h">
@@ -200,6 +206,9 @@
       <Filter>textures</Filter>
     </Image>
     <Image Include="textures\misc_scene.png">
+      <Filter>textures</Filter>
+    </Image>
+    <Image Include="textures\enemies_2.png">
       <Filter>textures</Filter>
     </Image>
   </ItemGroup>
