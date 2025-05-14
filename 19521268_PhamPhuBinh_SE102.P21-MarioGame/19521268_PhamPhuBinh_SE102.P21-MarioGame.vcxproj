@@ -189,6 +189,7 @@
     <Text Include="cloud.txt" />
     <Text Include="coin.txt" />
     <Text Include="goomba.txt" />
+    <Text Include="koopa.txt" />
     <Text Include="leaf.txt" />
     <Text Include="mario-sample.txt" />
     <Text Include="mario.txt" />

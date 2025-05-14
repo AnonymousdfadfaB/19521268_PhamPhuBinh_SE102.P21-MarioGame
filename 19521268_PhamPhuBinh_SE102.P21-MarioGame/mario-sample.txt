@@ -16,3 +16,4 @@ start	5
 10	textures\enemies.png
 20	textures\misc.png
 30	textures\misc_scene.png
+40	textures\enemies_2.png

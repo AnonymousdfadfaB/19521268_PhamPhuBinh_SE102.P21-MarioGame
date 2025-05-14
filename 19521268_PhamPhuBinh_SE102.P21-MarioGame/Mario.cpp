@@ -11,6 +11,7 @@
 #include "Collision.h"
 #include "Mushroom.h"
 #include "Leaf.h"
+#include "Koopa.h"
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
@@ -61,6 +62,8 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithMushroom(e);	
 	else if (dynamic_cast<CLeaf*>(e->obj))
 		OnCollisionWithLeaf(e);
+	else if (dynamic_cast<CKoopa*>(e->obj))
+		OnCollisionWithKoopa(e);
 }
 
 void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
@@ -82,7 +85,12 @@ void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 		{
 			if (goomba->GetState() != GOOMBA_STATE_DIE)
 			{
-				if (level > MARIO_LEVEL_SMALL)
+				if (level == MARIO_LEVEL_RACCOON)
+				{
+					level = MARIO_LEVEL_BIG;
+					StartUntouchable();
+				}
+				if (level == MARIO_LEVEL_BIG)
 				{
 					level = MARIO_LEVEL_SMALL;
 					StartUntouchable();
@@ -151,6 +159,114 @@ void CMario::OnCollisionWithMushroom(LPCOLLISIONEVENT e)
 	}
 
 }
+void CMario::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
+{
+	CKoopa* koopa = dynamic_cast<CKoopa*>(e->obj);
+
+	// jump on top >> kill Goomba and deflect a bit 
+	int state = koopa->GetState();
+	switch (state)
+	{
+	case KOOPA_STATE_WALKING_LEFT:
+	case KOOPA_STATE_WALKING_RIGHT:
+		if (e->ny < 0)
+		{
+			koopa->ToShell();
+			vy = -MARIO_JUMP_DEFLECT_SPEED;
+		} 
+		else
+		{
+			if (untouchable == 0)
+			{
+				if (state != KOOPA_STATE_DIE)
+				{
+					if (level == MARIO_LEVEL_RACCOON)
+					{
+						level = MARIO_LEVEL_BIG;
+						StartUntouchable();
+					}
+					if (level == MARIO_LEVEL_BIG)
+					{
+						level = MARIO_LEVEL_SMALL;
+						StartUntouchable();
+					}
+					else
+					{
+						DebugOut(L">>> Mario DIE >>> \n");
+						SetState(MARIO_STATE_DIE);
+					}
+				}
+			}
+		}
+		break;
+	case KOOPA_STATE_SHELL:
+		if (!e->nx)
+		{
+			if (e->nx > 0)
+			{
+				koopa->SetPosition(koopa->GetX() - KOOPA_SHELL_BBOX_WIDTH / 2, koopa->GetY());
+				koopa->ToShellSlidingLeft();
+			}
+			else
+			{
+				koopa->SetPosition(koopa->GetX() + KOOPA_SHELL_BBOX_WIDTH / 2, koopa->GetY());
+				koopa->ToShellSlidingRight();
+			}
+		} 
+		else
+		{
+			if (x > koopa->GetX())
+			{
+				koopa->SetPosition(koopa->GetX() - KOOPA_SHELL_BBOX_WIDTH / 2, koopa->GetY());
+				koopa->ToShellSlidingLeft();
+			}
+			else
+			{
+				koopa->SetPosition(koopa->GetX() + KOOPA_SHELL_BBOX_WIDTH / 2, koopa->GetY());
+				koopa->ToShellSlidingRight();
+			}
+		}
+		break;
+	case KOOPA_STATE_SHELL_SLIDING_LEFT:
+	case KOOPA_STATE_SHELL_SLIDING_RIGHT:
+		if (e->ny < 0)
+		{
+			koopa->ToShell();
+			vy = -MARIO_JUMP_DEFLECT_SPEED;
+		}
+		else if (e->ny > 0)
+		{
+			koopa->Die();
+			vy = 0;
+		}
+		else
+		{
+			if (untouchable == 0)
+			{
+				if (state != KOOPA_STATE_DIE)
+				{
+					if (level == MARIO_LEVEL_RACCOON)
+					{
+						level = MARIO_LEVEL_BIG;
+						StartUntouchable();
+					}
+					if (level == MARIO_LEVEL_BIG)
+					{
+						level = MARIO_LEVEL_SMALL;
+						StartUntouchable();
+					}
+					else
+					{
+						DebugOut(L">>> Mario DIE >>> \n");
+						SetState(MARIO_STATE_DIE);
+					}
+				}
+			}
+		}
+		break;
+	}
+}
+
 void CMario::OnCollisionWithLeaf(LPCOLLISIONEVENT e)
 {
 	CLeaf* leaf = dynamic_cast<CLeaf*>(e->obj);

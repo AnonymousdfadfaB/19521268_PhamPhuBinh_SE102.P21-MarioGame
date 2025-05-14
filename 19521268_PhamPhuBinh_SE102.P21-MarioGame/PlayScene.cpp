@@ -10,6 +10,7 @@
 #include "Coin.h"
 #include "Platform.h"
 #include "QuestionBlock.h"
+#include "Koopa.h"
 #include "SampleKeyEventHandler.h"
 
 using namespace std;
@@ -151,7 +152,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		obj = new CPortal(x, y, r, b, scene_id);
 	}
 	break;
-
+	case OBJECT_TYPE_KOOPA: obj = new CKoopa(x, y); break;
 
 	default:
 		DebugOut(L"[ERROR] Invalid object type: %d\n", object_type);
