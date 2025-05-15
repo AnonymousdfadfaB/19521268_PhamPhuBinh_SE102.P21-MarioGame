@@ -36,7 +36,7 @@ void CMushroom::Render()
 
 	CSprites* sprites = CSprites::GetInstance();
 	
-	sprites->Get(60001)->Draw(x, y);
+	sprites->Get(ID_SPRI_RED_MUSHROOM)->Draw(x, y);
 	
 	//RenderBoundingBox();
 }

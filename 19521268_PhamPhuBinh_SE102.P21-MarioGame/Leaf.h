@@ -12,15 +12,13 @@
 #define LEAF_AMPLITUDE 25
 #define LEAF_BBOX_WIDTH 16
 #define LEAF_BBOX_HEIGHT 16
-
+#define LEAF_SPRITE_ID 70001
 
 class CLeaf : public CGameObject {
 protected:
 public:
 	CLeaf(float x, float y) : CGameObject(x, y)
 	{
-		//this->vx = LEAF_HORIZONTAL_VELOCITY;
-
 	}
 	void Render();
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);

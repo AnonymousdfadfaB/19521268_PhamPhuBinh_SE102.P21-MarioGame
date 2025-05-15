@@ -150,6 +150,7 @@ class CMario : public CGameObject
 	ULONGLONG untouchable_start;
 	BOOLEAN isOnPlatform;
 	int coin; 
+	int up;
 
 	void OnCollisionWithGoomba(LPCOLLISIONEVENT e);
 	void OnCollisionWithCoin(LPCOLLISIONEVENT e);
@@ -175,6 +176,7 @@ public:
 		untouchable_start = -1;
 		isOnPlatform = false;
 		coin = 0;
+		up = 3;
 	}
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	void Render();
@@ -198,4 +200,6 @@ public:
 	int GetLevel() { return level; }
 	bool IsOnPlatform() { return isOnPlatform; }
 	float GetVx() { return vx; }
+	void AddCoin(int c = 1) { coin += c; }
+	bool IsSmall() { return level == MARIO_LEVEL_SMALL; }
 };

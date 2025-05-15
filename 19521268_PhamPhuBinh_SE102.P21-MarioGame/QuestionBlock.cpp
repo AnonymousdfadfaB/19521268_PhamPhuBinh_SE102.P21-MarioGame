@@ -27,11 +27,11 @@ void CQuestionBlock::GenerateCoin() {
 	dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->AddObject(content);
 }
 void CQuestionBlock::GenerateRedMushroom() {
-	content = new CMushroom(x, y);
+	content = new CMushroom(x, y, RED_MUSHROOM);
 	dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->AddObject(content);
 }
 void CQuestionBlock::GenerateGreenMushroom() {
-	content = new CMushroom(x, y);
+	content = new CMushroom(x, y, GREEN_MUSHROOM);
 	dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->AddObject(content);
 }
 void CQuestionBlock::GenerateLeaf() {

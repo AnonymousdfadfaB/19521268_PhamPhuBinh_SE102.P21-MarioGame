@@ -16,12 +16,8 @@ void CLeaf::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 }
 void CLeaf::Render()
 {
-
 	CSprites* sprites = CSprites::GetInstance();
-
-	sprites->Get(70001)->Draw(x, y);
-
-	//RenderBoundingBox();
+	sprites->Get(LEAF_SPRITE_ID)->Draw(x, y);
 }
 
 void CLeaf::GetBoundingBox(float& l, float& t, float& r, float& b)

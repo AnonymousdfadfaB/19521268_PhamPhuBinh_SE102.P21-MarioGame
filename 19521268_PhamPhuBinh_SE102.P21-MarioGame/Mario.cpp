@@ -123,22 +123,11 @@ void CMario::OnCollisionWithQuestionBlock(LPCOLLISIONEVENT e)
 	// jump on top >> kill Goomba and deflect a bit 
 	if (!questionBlock->IsHit() && e->ny > 0) {
 		questionBlock->Hit();
-		if (questionBlock->IsQuestionBlockContainCoin()) {
+		if (questionBlock->IsQuestionBlockContainCoin())
 			coin++;
-			questionBlock->GenerateCoin();
-		}
-		else if (questionBlock->IsQuestionBlockContainRedMushroom())
-		{
-			questionBlock->GenerateRedMushroom();
-		}
-		else if (questionBlock->IsQuestionBlockContainGreenMushroom()) {
-			questionBlock->GenerateGreenMushroom();
-		}
-		else if (questionBlock->IsQuestionBlockContainLeaf()) {
-			questionBlock->GenerateLeaf();
-		}
 	}
 }
+
 void CMario::OnCollisionWithMushroom(LPCOLLISIONEVENT e)
 {
 	CMushroom* mushroom = dynamic_cast<CMushroom*>(e->obj);
@@ -152,12 +141,18 @@ void CMario::OnCollisionWithMushroom(LPCOLLISIONEVENT e)
 			y -= (MARIO_BIG_BBOX_HEIGHT - MARIO_SMALL_BBOX_HEIGHT) / 2;
 			mushroom->Delete();
 		}
+		else if (level == MARIO_LEVEL_BIG)
+		{
+			level = MARIO_LEVEL_RACCOON;
+			y -= (MARIO_RACCOON_BBOX_HEIGHT - MARIO_BIG_BBOX_HEIGHT) / 2;
+			mushroom->Delete();
+		}
 	}
-	else if (mushroom->IsGreenMushroom())
+	else
 	{
-
+		up++;
+		mushroom->Delete();
 	}
-
 }
 void CMario::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 {
