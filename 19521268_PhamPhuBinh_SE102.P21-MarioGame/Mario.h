@@ -107,6 +107,10 @@
 
 #define ID_ANI_MARIO_RACCOON_SIT_RIGHT 2700
 #define ID_ANI_MARIO_RACCOON_SIT_LEFT 2701
+
+#define ID_ANI_MARIO_RACCOON_ATTACK_LEFT 2800
+#define ID_ANI_MARIO_RACCOON_ATTACK_RIGHT 2801
+
 #pragma endregion
 
 #define GROUND_Y 160.0f
@@ -137,10 +141,14 @@
 //width height of mario raccoon 19, 26
 
 #define MARIO_UNTOUCHABLE_TIME 2500
+#define MARIO_ATTACK_TIME 500
 
 class CMario : public CGameObject
 {
 	BOOLEAN isSitting;
+	BOOLEAN isAttackingLeft;
+	BOOLEAN isAttackingRight;
+	ULONGLONG attack_start;
 	float maxVx;
 	float ax;				// acceleration on x 
 	float ay;				// acceleration on y 
@@ -202,4 +210,15 @@ public:
 	float GetVx() { return vx; }
 	void AddCoin(int c = 1) { coin += c; }
 	bool IsSmall() { return level == MARIO_LEVEL_SMALL; }
+	bool IsGoRight() { return nx > 0; }
+	void AttackLeft() { 
+		if(!IsAttacking())
+			isAttackingLeft = true; attack_start = GetTickCount64(); 
+	}
+	void AttackRight() { 
+		if (!IsAttacking())
+			isAttackingRight = true; attack_start = GetTickCount64(); 
+	}
+	bool IsAttacking() { return isAttackingLeft || isAttackingRight; }
+
 };

@@ -26,7 +26,20 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		untouchable_start = 0;
 		untouchable = 0;
 	}
-
+	if (isAttackingLeft)
+	{
+		if (GetTickCount64() - attack_start > MARIO_ATTACK_TIME)
+		{
+			isAttackingLeft = false;
+		}
+	}
+	else if (isAttackingRight)
+	{
+		if (GetTickCount64() - attack_start > MARIO_ATTACK_TIME)
+		{
+			isAttackingRight = false;
+		}
+	}
 	CCollision::GetInstance()->Process(this, dt, coObjects);
 }
 
@@ -69,7 +82,76 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 {
 	CGoomba* goomba = dynamic_cast<CGoomba*>(e->obj);
-
+	if (isAttackingLeft)
+	{
+		ULONGLONG now = GetTickCount64();
+		if (now - attack_start <= 100) //time for attack left
+		{
+			if (e->nx < 0)
+			{
+				if (goomba->GetState() != GOOMBA_STATE_DIE)
+				{
+					goomba->SetState(GOOMBA_STATE_DIE);
+				}
+			}
+		}
+		else if (now - attack_start > 200 || now - attack_start <= 300)
+		{
+			if (e->nx > 0)
+			{
+				if (goomba->GetState() != GOOMBA_STATE_DIE)
+				{
+					goomba->SetState(GOOMBA_STATE_DIE);
+				}
+			}
+		}
+		else if (now - attack_start > 400 || now - attack_start <= 500)
+		{
+			if (e->nx > 0)
+			{
+				if (goomba->GetState() != GOOMBA_STATE_DIE)
+				{
+					goomba->SetState(GOOMBA_STATE_DIE);
+				}
+			}
+		}
+		return;
+	}
+	else if (isAttackingRight)
+	{
+		ULONGLONG now = GetTickCount64();
+		if (now - attack_start <= 100) //time for attack left
+		{
+			if (e->nx > 0)
+			{
+				if (goomba->GetState() != GOOMBA_STATE_DIE)
+				{
+					goomba->SetState(GOOMBA_STATE_DIE);
+				}
+			}
+		}
+		else if (now - attack_start > 200 || now - attack_start <= 300)
+		{
+			if (e->nx < 0)
+			{
+				if (goomba->GetState() != GOOMBA_STATE_DIE)
+				{
+					goomba->SetState(GOOMBA_STATE_DIE);
+				}
+			}
+		}
+		else if (now - attack_start > 400 || now - attack_start <= 500)
+		{
+			if (e->nx < 0)
+			{
+				if (goomba->GetState() != GOOMBA_STATE_DIE)
+				{
+					goomba->SetState(GOOMBA_STATE_DIE);
+				}
+			}
+		}
+		return;
+	}
 	// jump on top >> kill Goomba and deflect a bit 
 	if (e->ny < 0)
 	{
@@ -90,7 +172,7 @@ void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 					level = MARIO_LEVEL_BIG;
 					StartUntouchable();
 				}
-				if (level == MARIO_LEVEL_BIG)
+				else if (level == MARIO_LEVEL_BIG)
 				{
 					level = MARIO_LEVEL_SMALL;
 					StartUntouchable();
@@ -408,6 +490,14 @@ int CMario::GetAniIdBig()
 int CMario::GetAniIdRaccoon()
 {
 	int aniId = -1;
+	if (isAttackingLeft)
+	{
+		return aniId = ID_ANI_MARIO_RACCOON_ATTACK_LEFT;
+	} 
+	else if (isAttackingRight)
+	{
+		return aniId = ID_ANI_MARIO_RACCOON_ATTACK_RIGHT;
+	}
 	if (!isOnPlatform)
 	{
 		if (abs(ax) == MARIO_ACCEL_RUN_X)

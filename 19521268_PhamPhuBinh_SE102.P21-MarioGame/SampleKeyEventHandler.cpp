@@ -13,6 +13,12 @@ void CSampleKeyHandler::OnKeyDown(int KeyCode)
 
 	switch (KeyCode)
 	{
+	case DIK_A:
+		if (mario->GetLevel() == MARIO_LEVEL_RACCOON && !mario->IsAttacking())
+		{
+			mario->IsGoRight() ? mario->AttackLeft() : mario->AttackRight();
+		}
+		break;
 	case DIK_S:
 		if (mario->IsOnPlatform())
 			mario->SetState(MARIO_STATE_JUMP);

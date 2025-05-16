@@ -163,11 +163,13 @@ void CKoopa::SetState(int state)
 		break;
 	case KOOPA_STATE_WALKING_LEFT:
 		vx = -KOOPA_WALKING_SPEED;
+		nx = -1;
 		if (this->state == KOOPA_STATE_SHELL)
 			y -= (KOOPA_BBOX_HEIGHT - KOOPA_SHELL_BBOX_HEIGHT) / 2;
 		break;
 	case KOOPA_STATE_WALKING_RIGHT:
 		vx = KOOPA_WALKING_SPEED;
+		nx = 1;
 		if (this->state == KOOPA_STATE_SHELL)
 			y -= (KOOPA_BBOX_HEIGHT - KOOPA_SHELL_BBOX_HEIGHT) / 2;
 		break;
@@ -176,13 +178,16 @@ void CKoopa::SetState(int state)
 		vx = 0;
 		vy = 0;
 		ax = 0;
+		nx = 0;
 		if (this->state == KOOPA_STATE_WALKING_LEFT || this->state == KOOPA_STATE_WALKING_RIGHT)
 			y += (KOOPA_BBOX_HEIGHT - KOOPA_SHELL_BBOX_HEIGHT) / 2;
 		break;
 	case KOOPA_STATE_SHELL_SLIDING_LEFT:
+		nx = -1;
 		vx = -KOOPA_WALKING_SPEED;
 		break;
 	case KOOPA_STATE_SHELL_SLIDING_RIGHT:
+		nx = 1;
 		vx = KOOPA_WALKING_SPEED;
 		break;
 	}
