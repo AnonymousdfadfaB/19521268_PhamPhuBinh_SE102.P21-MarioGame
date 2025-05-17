@@ -1,6 +1,6 @@
 #pragma once
 #include "GameObject.h"
-
+#include "Koopa.h"
 #include "Animation.h"
 #include "Animations.h"
 
@@ -148,6 +148,8 @@ class CMario : public CGameObject
 	BOOLEAN isSitting;
 	BOOLEAN isAttackingLeft;
 	BOOLEAN isAttackingRight;
+	BOOLEAN isHoldingShell;
+	CKoopa* shell;
 	ULONGLONG attack_start;
 	float maxVx;
 	float ax;				// acceleration on x 
@@ -185,6 +187,11 @@ public:
 		isOnPlatform = false;
 		coin = 0;
 		up = 3;
+		isHoldingShell = false;
+		shell = NULL;
+		isAttackingLeft = false;
+		isAttackingRight = false;
+		attack_start = -1;
 	}
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	void Render();
@@ -220,5 +227,32 @@ public:
 			isAttackingRight = true; attack_start = GetTickCount64(); 
 	}
 	bool IsAttacking() { return isAttackingLeft || isAttackingRight; }
-
+	void HoldingShell(CKoopa*);
+	float GetWidth() {
+		if (level == MARIO_LEVEL_RACCOON)
+			return MARIO_RACCOON_BBOX_WIDTH;
+		else if (level == MARIO_LEVEL_BIG)
+			return MARIO_BIG_BBOX_WIDTH;
+		else
+			return MARIO_SMALL_BBOX_WIDTH;
+	}
+	float GetHeight() {
+		if (isSitting)
+		{
+			if (level == MARIO_LEVEL_RACCOON)
+				return MARIO_RACCOON_SITTING_BBOX_HEIGHT;
+			else if (level == MARIO_LEVEL_BIG)
+				return MARIO_BIG_SITTING_BBOX_HEIGHT;
+			else
+				return MARIO_SMALL_BBOX_HEIGHT;
+		}
+		else {
+			if (level == MARIO_LEVEL_RACCOON)
+				return MARIO_RACCOON_BBOX_HEIGHT;
+			else if (level == MARIO_LEVEL_BIG)
+				return MARIO_BIG_BBOX_HEIGHT;
+			else
+				return MARIO_SMALL_BBOX_HEIGHT;
+		}
+	}
 };

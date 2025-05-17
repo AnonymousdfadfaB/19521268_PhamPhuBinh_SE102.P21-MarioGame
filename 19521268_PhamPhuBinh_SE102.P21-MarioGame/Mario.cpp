@@ -26,6 +26,15 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		untouchable_start = 0;
 		untouchable = 0;
 	}
+	if (isHoldingShell)
+	{
+		if (!shell->IsShellState())
+		{
+			isHoldingShell = false;
+			shell = NULL;
+		}
+	}
+
 	if (isAttackingLeft)
 	{
 		if (GetTickCount64() - attack_start > MARIO_ATTACK_TIME)
@@ -40,6 +49,14 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			isAttackingRight = false;
 		}
 	}
+	else if (isHoldingShell)
+	{
+		auto it = std::find(coObjects->begin(), coObjects->end(), shell);
+		if (it != coObjects->end())
+		{
+			coObjects->erase(it);
+		}
+	}
 	CCollision::GetInstance()->Process(this, dt, coObjects);
 }
 
@@ -48,10 +65,16 @@ void CMario::OnNoCollision(DWORD dt)
 	x += vx * dt;
 	y += vy * dt;
 	isOnPlatform = false;
+	if (isHoldingShell)
+		shell->SetPosition(x + GetWidth(), y + GetHeight());
 }
 
 void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 {
+	if (isHoldingShell)
+	{
+		shell->SetPosition(x + GetWidth(), y + GetHeight());
+	}
 	if (e->ny != 0 && e->obj->IsBlocking())
 	{
 		vy = 0;
@@ -239,7 +262,58 @@ void CMario::OnCollisionWithMushroom(LPCOLLISIONEVENT e)
 void CMario::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 {
 	CKoopa* koopa = dynamic_cast<CKoopa*>(e->obj);
-
+	if (isAttackingLeft)
+	{
+		ULONGLONG now = GetTickCount64();
+		if (now - attack_start <= 100) //time for attack left
+		{
+			if (e->nx < 0)
+			{
+				koopa->Delete();
+			}
+		}
+		else if (now - attack_start > 200 || now - attack_start <= 300)
+		{
+			if (e->nx > 0)
+			{
+				koopa->Delete();
+			}
+		}
+		else if (now - attack_start > 400 || now - attack_start <= 500)
+		{
+			if (e->nx > 0)
+			{
+				koopa->Delete();
+			}
+		}
+		return;
+	}
+	else if (isAttackingRight)
+	{
+		ULONGLONG now = GetTickCount64();
+		if (now - attack_start <= 100) //time for attack left
+		{
+			if (e->nx > 0)
+			{
+				koopa->Delete();
+			}
+		}
+		else if (now - attack_start > 200 || now - attack_start <= 300)
+		{
+			if (e->nx < 0)
+			{
+				koopa->Delete();
+			}
+		}
+		else if (now - attack_start > 400 || now - attack_start <= 500)
+		{
+			if (e->nx < 0)
+			{
+				koopa->Delete();
+			}
+		}
+		return;
+	}
 	// jump on top >> kill Goomba and deflect a bit 
 	int state = koopa->GetState();
 	switch (state)
@@ -277,9 +351,13 @@ void CMario::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 		}
 		break;
 	case KOOPA_STATE_SHELL:
+
 		if (!e->nx)
 		{
-			if (e->nx > 0)
+			if (state == MARIO_STATE_RUNNING_RIGHT || state == MARIO_STATE_RUNNING_LEFT)
+			{
+				HoldingShell(koopa);
+			} else if (e->nx > 0)
 			{
 				koopa->SetPosition(koopa->GetX() - KOOPA_SHELL_BBOX_WIDTH / 2, koopa->GetY());
 				koopa->ToShellSlidingLeft();
@@ -769,4 +847,13 @@ void CMario::SetLevel(int l)
 	}
 	level = l;
 }
+void CMario::HoldingShell(CKoopa* shell)
+{
+	if (shell->IsShellState())
+	{
+		isHoldingShell = true;
+		this->shell = shell;
+	}
+}
+
 
