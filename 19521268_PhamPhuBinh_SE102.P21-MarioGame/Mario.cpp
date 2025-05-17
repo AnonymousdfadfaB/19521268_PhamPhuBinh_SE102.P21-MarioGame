@@ -38,7 +38,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	{
 		CCollision::GetInstance()->Process(this, dt, coObjects);
 	}
-
+	UpdateShell(dt);
 	//reset action of mario if sactifies
 
 	if (isHoldingShell)
