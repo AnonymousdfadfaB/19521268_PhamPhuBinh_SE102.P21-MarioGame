@@ -111,6 +111,16 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 {
 	CGoomba* goomba = dynamic_cast<CGoomba*>(e->obj);
+	if (isAttackingLeft || isAttackingRight)
+	{
+		if (goomba->GetState() != GOOMBA_STATE_DIE)
+		{
+			goomba->SetState(GOOMBA_STATE_DIE);
+
+		}
+		return;
+	}
+	/*
 	if (isAttackingLeft)
 	{
 		ULONGLONG now = GetTickCount64();
@@ -223,6 +233,7 @@ void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 		}
 		return;
 	}
+	*/
 	// jump on top >> kill Goomba and deflect a bit 
 	if (e->ny < 0)
 	{
@@ -310,6 +321,15 @@ void CMario::OnCollisionWithMushroom(LPCOLLISIONEVENT e)
 void CMario::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 {
 	CKoopa* koopa = dynamic_cast<CKoopa*>(e->obj);
+	if (isAttackingLeft || isAttackingRight)
+	{
+		if (koopa->GetState() != KOOPA_STATE_DIE)
+		{
+			koopa->Delete();
+		}
+		return;
+	}
+	/*
 	if (isAttackingLeft)
 	{
 		ULONGLONG now = GetTickCount64();
@@ -405,6 +425,7 @@ void CMario::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 		}
 		return;
 	}
+	*/
 	// jump on top >> kill Goomba and deflect a bit 
 	int state = koopa->GetState();
 	switch (state)
