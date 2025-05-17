@@ -466,7 +466,7 @@ void CMario::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 
 		if (!e->nx)
 		{
-			if ((state == MARIO_STATE_RUNNING_RIGHT || state == MARIO_STATE_RUNNING_LEFT) && !IsAction())
+			if ((this->state == MARIO_STATE_RUNNING_RIGHT ||this->state == MARIO_STATE_RUNNING_LEFT) && !IsAction())
 			{
 				HoldingShell(koopa);
 			}
