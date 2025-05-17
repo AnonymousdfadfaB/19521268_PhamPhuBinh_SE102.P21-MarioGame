@@ -301,14 +301,12 @@ void CMario::OnCollisionWithMushroom(LPCOLLISIONEVENT e)
 	{
 		if (level == MARIO_LEVEL_SMALL)
 		{
-			level = MARIO_LEVEL_BIG;
-			y -= (MARIO_BIG_BBOX_HEIGHT - MARIO_SMALL_BBOX_HEIGHT) / 2;
+			SetLevel(MARIO_LEVEL_BIG);
 			mushroom->Delete();
 		}
 		else if (level == MARIO_LEVEL_BIG)
 		{
-			level = MARIO_LEVEL_RACCOON;
-			y -= (MARIO_RACCOON_BBOX_HEIGHT - MARIO_BIG_BBOX_HEIGHT) / 2;
+			SetLevel(MARIO_LEVEL_RACCOON);
 			mushroom->Delete();
 		}
 	}
@@ -951,6 +949,10 @@ void CMario::SetLevel(int l)
 	if (this->level == MARIO_LEVEL_SMALL)
 	{
 		y -= (MARIO_BIG_BBOX_HEIGHT - MARIO_SMALL_BBOX_HEIGHT) / 2;
+	}
+	else if (this->level == MARIO_LEVEL_BIG)
+	{
+		y -= (MARIO_RACCOON_BBOX_HEIGHT - MARIO_BIG_BBOX_HEIGHT) / 2;
 	}
 	level = l;
 }
