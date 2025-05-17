@@ -16,9 +16,13 @@
 
 class CLeaf : public CGameObject {
 protected:
+	float originalX;
+	float time;
 public:
 	CLeaf(float x, float y) : CGameObject(x, y)
 	{
+		originalX = x;
+		time = 0;
 	}
 	void Render();
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);

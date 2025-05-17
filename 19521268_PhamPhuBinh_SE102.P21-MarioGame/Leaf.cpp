@@ -4,8 +4,6 @@
 
 void CLeaf::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-	static float originalX = x;
-	static float time = 0.0f;
 	time += dt;
 	x = originalX + LEAF_AMPLITUDE * sin(2 * PI / LEAF_CYCLE * time);
 	y += vy * dt;
