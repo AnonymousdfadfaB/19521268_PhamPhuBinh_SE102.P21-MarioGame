@@ -19,13 +19,17 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	vx += ax * dt;
 
 	if (abs(vx) > abs(maxVx)) vx = maxVx;
-
-	// reset untouchable timer if untouchable time has passed
-	if ( GetTickCount64() - untouchable_start > MARIO_UNTOUCHABLE_TIME) 
+	if (GetTickCount64() - untouchable_start > MARIO_UNTOUCHABLE_TIME)
 	{
 		untouchable_start = 0;
 		untouchable = 0;
 	}
+	// reset untouchable timer if untouchable time has passed
+
+	CCollision::GetInstance()->Process(this, dt, coObjects);
+
+	//reset action of mario if sactifies
+
 	if (isHoldingShell)
 	{
 		if (!shell->IsShellState())
@@ -40,6 +44,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		if (GetTickCount64() - attack_start > MARIO_ATTACK_TIME)
 		{
 			isAttackingLeft = false;
+			attack_start = -1;
 		}
 	}
 	else if (isAttackingRight)
@@ -47,17 +52,18 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		if (GetTickCount64() - attack_start > MARIO_ATTACK_TIME)
 		{
 			isAttackingRight = false;
+			attack_start = -1;
 		}
 	}
 	else if (isHoldingShell)
-	{
+	{	
+		//reset isHoldingShell if shell is not in shell state
 		auto it = std::find(coObjects->begin(), coObjects->end(), shell);
 		if (it != coObjects->end())
 		{
 			coObjects->erase(it);
 		}
 	}
-	CCollision::GetInstance()->Process(this, dt, coObjects);
 }
 
 void CMario::OnNoCollision(DWORD dt)
@@ -117,6 +123,13 @@ void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 					goomba->SetState(GOOMBA_STATE_DIE);
 				}
 			}
+			else
+			{
+				if (!untouchable)
+				{
+					MarioIsHit();
+				}
+			}
 		}
 		else if (now - attack_start > 200 || now - attack_start <= 300)
 		{
@@ -127,6 +140,13 @@ void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 					goomba->SetState(GOOMBA_STATE_DIE);
 				}
 			}
+			else
+			{
+				if (!untouchable)
+				{
+					MarioIsHit();
+				}
+			}
 		}
 		else if (now - attack_start > 400 || now - attack_start <= 500)
 		{
@@ -135,6 +155,13 @@ void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 				if (goomba->GetState() != GOOMBA_STATE_DIE)
 				{
 					goomba->SetState(GOOMBA_STATE_DIE);
+				}
+			}
+			else
+			{
+				if (!untouchable)
+				{
+					MarioIsHit();
 				}
 			}
 		}
@@ -152,6 +179,13 @@ void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 					goomba->SetState(GOOMBA_STATE_DIE);
 				}
 			}
+			else
+			{
+				if (!untouchable)
+				{
+					MarioIsHit();
+				}
+			}
 		}
 		else if (now - attack_start > 200 || now - attack_start <= 300)
 		{
@@ -162,6 +196,13 @@ void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 					goomba->SetState(GOOMBA_STATE_DIE);
 				}
 			}
+			else
+			{
+				if (!untouchable)
+				{
+					MarioIsHit();
+				}
+			}
 		}
 		else if (now - attack_start > 400 || now - attack_start <= 500)
 		{
@@ -170,6 +211,13 @@ void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 				if (goomba->GetState() != GOOMBA_STATE_DIE)
 				{
 					goomba->SetState(GOOMBA_STATE_DIE);
+				}
+			}
+			else
+			{
+				if (!untouchable)
+				{
+					MarioIsHit();
 				}
 			}
 		}
@@ -271,6 +319,13 @@ void CMario::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 			{
 				koopa->Delete();
 			}
+			else
+			{
+				if (!untouchable)
+				{
+					MarioIsHit();
+				}
+			}
 		}
 		else if (now - attack_start > 200 || now - attack_start <= 300)
 		{
@@ -278,12 +333,27 @@ void CMario::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 			{
 				koopa->Delete();
 			}
+			else
+			{
+				if (!untouchable)
+				{
+					MarioIsHit();
+				}
+
+			}
 		}
 		else if (now - attack_start > 400 || now - attack_start <= 500)
 		{
 			if (e->nx > 0)
 			{
 				koopa->Delete();
+			}
+			else
+			{
+				if (!untouchable)
+				{
+					MarioIsHit();
+				}
 			}
 		}
 		return;
@@ -297,6 +367,13 @@ void CMario::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 			{
 				koopa->Delete();
 			}
+			else
+			{
+				if (!untouchable)
+				{
+					MarioIsHit();
+				}
+			}
 		}
 		else if (now - attack_start > 200 || now - attack_start <= 300)
 		{
@@ -304,12 +381,26 @@ void CMario::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 			{
 				koopa->Delete();
 			}
+			else
+			{
+				if (!untouchable)
+				{
+					MarioIsHit();
+				}
+			}
 		}
 		else if (now - attack_start > 400 || now - attack_start <= 500)
 		{
 			if (e->nx < 0)
 			{
 				koopa->Delete();
+			}
+			else
+			{
+				if (!untouchable)
+				{
+					MarioIsHit();
+				}
 			}
 		}
 		return;
@@ -698,25 +789,20 @@ void CMario::SetState(int state)
 			break;
 
 		case MARIO_STATE_SIT:
-			if (isOnPlatform)
+			if (isOnPlatform && !IsAction())
 			{
 				if (level == MARIO_LEVEL_BIG)
 				{
-					if (!isSitting) {
-						y += MARIO_BIG_SIT_HEIGHT_ADJUST;
-					}
+					y += MARIO_BIG_SIT_HEIGHT_ADJUST;
 					isSitting = true;
 					vx = 0; vy = 0.0f;
 				}
 				else if (level == MARIO_LEVEL_RACCOON)
 				{
-					if (!isSitting) {
-						y += MARIO_RACCOON_SIT_HEIGHT_ADJUST;
-					}
+					y += MARIO_RACCOON_SIT_HEIGHT_ADJUST;
 					isSitting = true;
 					vx = 0; vy = 0.0f;
 				}
-
 			}
 			break;
 

@@ -18,7 +18,7 @@ class CCoin : public CGameObject {
 protected:
 	int type;
 public:
-	CCoin(float x, float y, int type = BOUNCE_COIN) : CGameObject(x, y) 
+	CCoin(float x, float y, int type = NORMAL_COIN) : CGameObject(x, y) 
 	{ 
 		this->type = type; 
 		this->vy = COIN_VERTICLE_VELOCITY;

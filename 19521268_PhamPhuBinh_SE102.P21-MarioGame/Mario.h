@@ -219,14 +219,14 @@ public:
 	bool IsSmall() { return level == MARIO_LEVEL_SMALL; }
 	bool IsGoRight() { return nx > 0; }
 	void AttackLeft() { 
-		if(!IsAttacking())
+		if (!IsAction())
 			isAttackingLeft = true; attack_start = GetTickCount64(); 
 	}
 	void AttackRight() { 
-		if (!IsAttacking())
+		if (!IsAction())
 			isAttackingRight = true; attack_start = GetTickCount64(); 
 	}
-	bool IsAttacking() { return isAttackingLeft || isAttackingRight; }
+	bool IsAction() { return isAttackingLeft || isAttackingRight || isSitting; }
 	void HoldingShell(CKoopa*);
 	float GetWidth() {
 		if (level == MARIO_LEVEL_RACCOON)
@@ -253,6 +253,24 @@ public:
 				return MARIO_BIG_BBOX_HEIGHT;
 			else
 				return MARIO_SMALL_BBOX_HEIGHT;
+		}
+	}
+	void MarioIsHit()
+	{
+		if (level == MARIO_LEVEL_RACCOON)
+		{
+			level = MARIO_LEVEL_BIG;
+			StartUntouchable();
+		}
+		if (level == MARIO_LEVEL_BIG)
+		{
+			level = MARIO_LEVEL_SMALL;
+			StartUntouchable();
+		}
+		else
+		{
+			DebugOut(L">>> Mario DIE >>> \n");
+			SetState(MARIO_STATE_DIE);
 		}
 	}
 };
