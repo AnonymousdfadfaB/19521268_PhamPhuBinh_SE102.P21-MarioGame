@@ -25,8 +25,19 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		untouchable = 0;
 	}
 	// reset untouchable timer if untouchable time has passed
-
-	CCollision::GetInstance()->Process(this, dt, coObjects);
+	if (isHoldingShell)
+	{
+		auto it = std::find(coObjects->begin(), coObjects->end(), shell);
+		if (it != coObjects->end())
+		{
+			coObjects->erase(it);
+		}
+		CCollision::GetInstance()->Process(this, dt, coObjects);
+	} 
+	else
+	{
+		CCollision::GetInstance()->Process(this, dt, coObjects);
+	}
 
 	//reset action of mario if sactifies
 
@@ -53,15 +64,6 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		{
 			isAttackingRight = false;
 			attack_start = -1;
-		}
-	}
-	else if (isHoldingShell)
-	{	
-		//reset isHoldingShell if shell is not in shell state
-		auto it = std::find(coObjects->begin(), coObjects->end(), shell);
-		if (it != coObjects->end())
-		{
-			coObjects->erase(it);
 		}
 	}
 }
@@ -464,10 +466,11 @@ void CMario::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 
 		if (!e->nx)
 		{
-			if (state == MARIO_STATE_RUNNING_RIGHT || state == MARIO_STATE_RUNNING_LEFT)
+			if ((state == MARIO_STATE_RUNNING_RIGHT || state == MARIO_STATE_RUNNING_LEFT) && !IsAction())
 			{
 				HoldingShell(koopa);
-			} else if (e->nx > 0)
+			}
+			else if (e->nx > 0)
 			{
 				koopa->SetPosition(koopa->GetX() - KOOPA_SHELL_BBOX_WIDTH / 2, koopa->GetY());
 				koopa->ToShellSlidingLeft();
@@ -962,6 +965,13 @@ void CMario::HoldingShell(CKoopa* shell)
 	{
 		isHoldingShell = true;
 		this->shell = shell;
+	}
+}
+void CMario::UpdateShell(DWORD dt)
+{
+	if (isHoldingShell)
+	{
+		shell->SetPosition(x + GetWidth(), y + GetHeight());
 	}
 }
 

@@ -226,7 +226,7 @@ public:
 		if (!IsAction())
 			isAttackingRight = true; attack_start = GetTickCount64(); 
 	}
-	bool IsAction() { return isAttackingLeft || isAttackingRight || isSitting; }
+	bool IsAction() { return isAttackingLeft || isAttackingRight || isSitting || isHoldingShell; }
 	void HoldingShell(CKoopa*);
 	float GetWidth() {
 		if (level == MARIO_LEVEL_RACCOON)
@@ -273,4 +273,5 @@ public:
 			SetState(MARIO_STATE_DIE);
 		}
 	}
+	void UpdateShell(DWORD dt);
 };
