@@ -466,7 +466,7 @@ void CMario::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 
 		if (!e->nx)
 		{
-			if ((this->state == MARIO_STATE_RUNNING_RIGHT ||this->state == MARIO_STATE_RUNNING_LEFT) && !IsAction())
+			if ((this->state == MARIO_STATE_RUNNING_RIGHT || this->state == MARIO_STATE_RUNNING_LEFT) && !IsAction())
 			{
 				HoldingShell(koopa);
 			}
@@ -971,7 +971,7 @@ void CMario::UpdateShell(DWORD dt)
 {
 	if (isHoldingShell)
 	{
-		shell->SetPosition(x + GetWidth(), y + GetHeight());
+		shell->SetPosition(x + GetWidth() + 100, y -  GetHeight() - 30); // asasastemporary
 	}
 }
 

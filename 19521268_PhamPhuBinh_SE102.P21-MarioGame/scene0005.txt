@@ -19,7 +19,7 @@ koopa.txt
 # MARIO
 0	120	10
 #GOOMBA
-2	160	-30
+
 #COIN
 4	120	-20
 4	140	-20
@@ -41,7 +41,6 @@ koopa.txt
 #Portal 
 50	200	160	216	180	1
 #Koopa
-7	160	-30
 7	240	-30
 
 
