@@ -11,7 +11,37 @@ CKoopa::CKoopa(float x, float y) :CGameObject(x, y)
 	shell_start = -1;
 	SetState(KOOPA_STATE_JUMP_RIGHT);
 }
+void CKoopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
+{
 
+	if (isHeld)
+	{
+		vy = 0;
+	}
+	else
+	{
+		vy += KOOPA_GRAVITY * dt;
+	}
+
+	if ((state == KOOPA_STATE_DIE) && (GetTickCount64() - die_start > KOOPA_DIE_TIMEOUT))
+	{
+		isDeleted = true;
+		return;
+	}
+	ULONGLONG now = GetTickCount64();
+	if (state == KOOPA_STATE_SHELL && now - shell_start > KOOPA_RETURN_WALKING_INTERVAL)
+	{
+		(int)now % 2 == 0 ? SetState(KOOPA_STATE_WALKING_RIGHT) : SetState(KOOPA_STATE_WALKING_LEFT);
+	}
+	if (state != KOOPA_STATE_SHELL)
+		isHeld = false;
+
+	if (state == KOOPA_STATE_DIE)
+	
+		OnNoCollision(dt);
+	else
+		CCollision::GetInstance()->Process(this, dt, coObjects);
+}
 void CKoopa::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
 	if (state == KOOPA_STATE_SHELL ||state == KOOPA_STATE_SHELL_SLIDING_LEFT || state == KOOPA_STATE_SHELL_SLIDING_RIGHT)
@@ -32,8 +62,16 @@ void CKoopa::GetBoundingBox(float& left, float& top, float& right, float& bottom
 
 void CKoopa::OnNoCollision(DWORD dt)
 {
-	x += vx * dt;
-	y += vy * dt;
+	if (isHeld)
+	{
+
+	}
+	else
+	{
+		x += vx * dt;
+		y += vy * dt;
+	}
+
 };
 
 void CKoopa::OnCollisionWith(LPCOLLISIONEVENT e)
@@ -79,17 +117,19 @@ void CKoopa::OnCollisionWith(LPCOLLISIONEVENT e)
 
 void CKoopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-	vy += KOOPA_GRAVITY * dt;
+	vy += ay * dt;
+	vx += ax * dt;
 	ULONGLONG now = GetTickCount64();
 	if (state == KOOPA_STATE_SHELL && now - shell_start > KOOPA_RETURN_WALKING_INTERVAL)
 	{
 		(int)now % 2 == 0 ? SetState(KOOPA_STATE_WALKING_RIGHT) : SetState(KOOPA_STATE_WALKING_LEFT);
 	}
-
-	if (state == KOOPA_STATE_DIE && GetTickCount64() - die_start > KOOPA_DIE_TIMEOUT)
+	/*
+	else if (state == KOOPA_STATE_DIE)
 	{
-		isDeleted = true;
-	}
+		if (GetTickCount64() - die_start > GOOMBA_DIE_TIMEOUT)
+			isDeleted = true;
+	}*/
 	CCollision::GetInstance()->Process(this, dt, coObjects);
 }
 void CKoopa::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
@@ -102,7 +142,6 @@ void CKoopa::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 			goomba->SetState(GOOMBA_STATE_DIE);
 		}
 	}
-
 }
 void CKoopa::OnCollisionWithQuestionBlock(LPCOLLISIONEVENT e)
 {
@@ -172,11 +211,15 @@ void CKoopa::Render()
 
 void CKoopa::SetState(int state)
 {
+
 	switch (state)
 	{
 	case KOOPA_STATE_DIE:
+		die_start = GetTickCount64();
 		vx = 0;
-		vy = -KOOPA_DIE_BOUNCE_SPEED;
+		vy = 0;
+		ay = 0;
+		ax = 0;
 		break;
 	case KOOPA_STATE_WALKING_LEFT:
 		vx = -KOOPA_WALKING_SPEED;

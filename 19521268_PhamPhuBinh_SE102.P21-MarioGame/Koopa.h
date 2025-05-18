@@ -28,13 +28,14 @@
 #define ID_ANI_KOOPA_SHELL 60100
 #define ID_ANI_KOOPA_WALKING_RIGHT 60101
 #define ID_ANI_KOOPA_WALKING_LEFT 60102
-#define ID_ANI_KOOPA_JUMP_RIGHT 60103
-#define ID_ANI_KOOOPA_JUMP_LEFT 60104
-#define ID_ANI_KOOPA_DIE 60105
+#define ID_ANI_KOOPA_DIE 18200
 
 class CKoopa : public CGameObject
 {
 protected:
+	float ax;
+	float ay;
+
 	ULONGLONG die_start;
 	ULONGLONG shell_start;
 	void GetBoundingBox(float& left, float& top, float& right, float& bottom);
@@ -63,4 +64,5 @@ public:
 	bool IsShellState() { return state == KOOPA_STATE_SHELL; }
 	bool IsShellSlidingLeftState() { return state == KOOPA_STATE_SHELL_SLIDING_LEFT; }
 	bool IsShellSlidingRightState() { return state == KOOPA_STATE_SHELL_SLIDING_RIGHT; }
+	bool IsHeldByMario() { return isHeld; }
 };
