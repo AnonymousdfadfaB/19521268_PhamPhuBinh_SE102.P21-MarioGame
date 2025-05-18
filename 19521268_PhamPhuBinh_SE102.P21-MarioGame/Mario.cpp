@@ -25,6 +25,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		untouchable = 0;
 	}
 	// reset untouchable timer if untouchable time has passed
+	
 	if (isHoldingShell)
 	{
 		auto it = std::find(coObjects->begin(), coObjects->end(), shell);
@@ -38,6 +39,8 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	{
 		CCollision::GetInstance()->Process(this, dt, coObjects);
 	}
+	
+	//CCollision::GetInstance()->Process(this, dt, coObjects);
 	UpdateShell(dt);
 	//reset action of mario if sactifies
 
@@ -79,10 +82,6 @@ void CMario::OnNoCollision(DWORD dt)
 
 void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 {
-	if (isHoldingShell)
-	{
-		shell->SetPosition(x + GetWidth(), y + GetHeight());
-	}
 	if (e->ny != 0 && e->obj->IsBlocking())
 	{
 		vy = 0;
@@ -247,27 +246,10 @@ void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 	}
 	else // hit by Goomba
 	{
-		if (untouchable == 0)
-		{
 			if (goomba->GetState() != GOOMBA_STATE_DIE)
 			{
-				if (level == MARIO_LEVEL_RACCOON)
-				{
-					level = MARIO_LEVEL_BIG;
-					StartUntouchable();
-				}
-				else if (level == MARIO_LEVEL_BIG)
-				{
-					level = MARIO_LEVEL_SMALL;
-					StartUntouchable();
-				}
-				else
-				{
-					DebugOut(L">>> Mario DIE >>> \n");
-					SetState(MARIO_STATE_DIE);
-				}
+				MarioIsHit();
 			}
-		}
 	}
 }
 
@@ -427,62 +409,41 @@ void CMario::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 	}
 	*/
 	// jump on top >> kill Goomba and deflect a bit 
-	int state = koopa->GetState();
-	switch (state)
+	int koopaState = koopa->GetState();
+
+	if (e->nx != 0)
 	{
-	case KOOPA_STATE_WALKING_LEFT:
-	case KOOPA_STATE_WALKING_RIGHT:
-		if (e->ny < 0)
+		if ((this->state == MARIO_STATE_RUNNING_RIGHT || this->state == MARIO_STATE_RUNNING_LEFT) && !IsAction())
 		{
+			isHoldingShell = true;
+			shell = koopa;
+			koopa->IsHeldByMario();
+		}
+		else if (e->nx > 0 && koopaState == KOOPA_STATE_SHELL)
+		{
+			koopa->SetPosition(koopa->GetX() - KOOPA_SHELL_BBOX_WIDTH / 2, koopa->GetY());
+			koopa->ToShellSlidingLeft();
+		}
+		else if (e->nx < 0 && koopaState == KOOPA_STATE_SHELL)
+		{
+			koopa->SetPosition(koopa->GetX() + KOOPA_SHELL_BBOX_WIDTH / 2, koopa->GetY());
+			koopa->ToShellSlidingRight();
+		}
+		else
+		{
+			MarioIsHit();
+		}
+	}
+	else if (e->ny < 0)
+	{
+		switch (koopaState)
+		{
+		case KOOPA_STATE_WALKING_LEFT:
+		case KOOPA_STATE_WALKING_RIGHT:
 			koopa->ToShell();
 			vy = -MARIO_JUMP_DEFLECT_SPEED;
-		} 
-		else
-		{
-			if (untouchable == 0)
-			{
-				if (state != KOOPA_STATE_DIE)
-				{
-					if (level == MARIO_LEVEL_RACCOON)
-					{
-						level = MARIO_LEVEL_BIG;
-						StartUntouchable();
-					}
-					if (level == MARIO_LEVEL_BIG)
-					{
-						level = MARIO_LEVEL_SMALL;
-						StartUntouchable();
-					}
-					else
-					{
-						DebugOut(L">>> Mario DIE >>> \n");
-						SetState(MARIO_STATE_DIE);
-					}
-				}
-			}
-		}
-		break;
-	case KOOPA_STATE_SHELL:
-
-		if (!e->nx)
-		{
-			if ((this->state == MARIO_STATE_RUNNING_RIGHT || this->state == MARIO_STATE_RUNNING_LEFT) && !IsAction())
-			{
-				HoldingShell(koopa);
-			}
-			else if (e->nx > 0)
-			{
-				koopa->SetPosition(koopa->GetX() - KOOPA_SHELL_BBOX_WIDTH / 2, koopa->GetY());
-				koopa->ToShellSlidingLeft();
-			}
-			else
-			{
-				koopa->SetPosition(koopa->GetX() + KOOPA_SHELL_BBOX_WIDTH / 2, koopa->GetY());
-				koopa->ToShellSlidingRight();
-			}
-		} 
-		else
-		{
+			break;
+		case KOOPA_STATE_SHELL:
 			if (x > koopa->GetX())
 			{
 				koopa->SetPosition(koopa->GetX() - KOOPA_SHELL_BBOX_WIDTH / 2, koopa->GetY());
@@ -493,45 +454,37 @@ void CMario::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 				koopa->SetPosition(koopa->GetX() + KOOPA_SHELL_BBOX_WIDTH / 2, koopa->GetY());
 				koopa->ToShellSlidingRight();
 			}
-		}
-		break;
-	case KOOPA_STATE_SHELL_SLIDING_LEFT:
-	case KOOPA_STATE_SHELL_SLIDING_RIGHT:
-		if (e->ny < 0)
-		{
+			break;
+		case KOOPA_STATE_SHELL_SLIDING_LEFT:
+		case KOOPA_STATE_SHELL_SLIDING_RIGHT:
 			koopa->ToShell();
 			vy = -MARIO_JUMP_DEFLECT_SPEED;
+			break;
 		}
-		else if (e->ny > 0)
+	}
+	else
+	{
+		switch (koopaState)
 		{
-			koopa->Die();
-			vy = 0;
-		}
-		else
-		{
-			if (untouchable == 0)
+		case KOOPA_STATE_WALKING_LEFT:
+		case KOOPA_STATE_WALKING_RIGHT:
+		case KOOPA_STATE_SHELL_SLIDING_LEFT:
+		case KOOPA_STATE_SHELL_SLIDING_RIGHT:
+			MarioIsHit();
+			break;
+		case KOOPA_STATE_SHELL:
+			if (x > koopa->GetX())
 			{
-				if (state != KOOPA_STATE_DIE)
-				{
-					if (level == MARIO_LEVEL_RACCOON)
-					{
-						level = MARIO_LEVEL_BIG;
-						StartUntouchable();
-					}
-					if (level == MARIO_LEVEL_BIG)
-					{
-						level = MARIO_LEVEL_SMALL;
-						StartUntouchable();
-					}
-					else
-					{
-						DebugOut(L">>> Mario DIE >>> \n");
-						SetState(MARIO_STATE_DIE);
-					}
-				}
+				koopa->SetPosition(koopa->GetX() - KOOPA_SHELL_BBOX_WIDTH / 2, koopa->GetY());
+				koopa->ToShellSlidingLeft();
 			}
+			else
+			{
+				koopa->SetPosition(koopa->GetX() + KOOPA_SHELL_BBOX_WIDTH / 2, koopa->GetY());
+				koopa->ToShellSlidingRight();
+			}
+			break;
 		}
-		break;
 	}
 }
 
@@ -895,8 +848,6 @@ void CMario::SetState(int state)
 				break;
 		}
 	}
-
-
 	CGameObject::SetState(state);
 }
 
@@ -959,19 +910,14 @@ void CMario::SetLevel(int l)
 	}
 	level = l;
 }
-void CMario::HoldingShell(CKoopa* shell)
-{
-	if (shell->IsShellState())
-	{
-		isHoldingShell = true;
-		this->shell = shell;
-	}
-}
 void CMario::UpdateShell(DWORD dt)
 {
 	if (isHoldingShell)
 	{
-		shell->SetPosition(x + GetWidth() + 100, y -  GetHeight() - 30); // asasastemporary
+		if (nx > 0)
+			shell->SetPosition(x + GetWidth() + 2, y - 10); // asasastemporary
+		else
+			shell->SetPosition(x - GetWidth() -2, y - 10); //asasastemporary
 	}
 }
 
