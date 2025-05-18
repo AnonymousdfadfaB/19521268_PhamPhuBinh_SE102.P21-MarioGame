@@ -134,13 +134,14 @@ void CKoopa::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 	if (state == KOOPA_STATE_SHELL_SLIDING_LEFT || state == KOOPA_STATE_SHELL_SLIDING_RIGHT)
 	{
 		CKoopa* anotherKoopa = dynamic_cast<CKoopa*>(e->obj);
-		if (anotherKoopa->IsShellState() || anotherKoopa->IsShellSlidingLeftState() || anotherKoopa->IsShellSlidingRightState())
+		int anotherKoopaState = anotherKoopa->GetState();
+		if (anotherKoopaState == KOOPA_STATE_SHELL || anotherKoopaState == KOOPA_STATE_SHELL_SLIDING_LEFT || anotherKoopaState == KOOPA_STATE_SHELL_SLIDING_RIGHT)
 		{
 			state == KOOPA_STATE_SHELL_SLIDING_LEFT ? KOOPA_STATE_SHELL_SLIDING_RIGHT : KOOPA_STATE_SHELL_SLIDING_LEFT;
-			if (anotherKoopa->IsShellSlidingLeftState())
-				anotherKoopa->ToShellSlidingRight();
-			else if (anotherKoopa->IsShellSlidingRightState())
-				anotherKoopa->ToShellSlidingLeft();
+			if (anotherKoopaState == KOOPA_STATE_SHELL_SLIDING_LEFT)
+				anotherKoopa->SetState(KOOPA_STATE_SHELL_SLIDING_RIGHT);
+			else if (anotherKoopaState == KOOPA_STATE_SHELL_SLIDING_RIGHT)
+				anotherKoopa->SetState(KOOPA_STATE_SHELL_SLIDING_LEFT);
 		}
 		else if (anotherKoopa->GetState() != KOOPA_STATE_DIE)
 			anotherKoopa->SetState(KOOPA_STATE_DIE);

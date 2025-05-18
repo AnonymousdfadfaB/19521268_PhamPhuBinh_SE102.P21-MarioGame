@@ -54,14 +54,4 @@ protected:
 public:
 	CKoopa(float x, float y);
 	virtual void SetState(int state);
-	void ToShell() { SetState(KOOPA_STATE_SHELL); }
-	void ToShellSlidingRight() { SetState(KOOPA_STATE_SHELL_SLIDING_RIGHT); }
-	void ToShellSlidingLeft() { SetState(KOOPA_STATE_SHELL_SLIDING_LEFT); }
-	void Die() {
-		SetState(KOOPA_STATE_DIE);
-		//die_start = GetTickCount64();
-	}
-	bool IsShellState() { return state == KOOPA_STATE_SHELL; }
-	bool IsShellSlidingLeftState() { return state == KOOPA_STATE_SHELL_SLIDING_LEFT; }
-	bool IsShellSlidingRightState() { return state == KOOPA_STATE_SHELL_SLIDING_RIGHT; }
 };

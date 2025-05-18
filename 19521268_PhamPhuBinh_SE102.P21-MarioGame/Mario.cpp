@@ -46,7 +46,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 	if (isHoldingShell)
 	{
-		if (!shell->IsShellState())
+		if (shell->GetState() != KOOPA_STATE_SHELL)
 		{
 			isHoldingShell = false;
 			shell = NULL;
@@ -422,12 +422,12 @@ void CMario::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 		else if (e->nx > 0 && koopaState == KOOPA_STATE_SHELL)
 		{
 			koopa->SetPosition(koopa->GetX() - KOOPA_SHELL_BBOX_WIDTH / 2, koopa->GetY());
-			koopa->ToShellSlidingLeft();
+			koopa->SetState(KOOPA_STATE_SHELL_SLIDING_LEFT);
 		}
 		else if (e->nx < 0 && koopaState == KOOPA_STATE_SHELL)
 		{
 			koopa->SetPosition(koopa->GetX() + KOOPA_SHELL_BBOX_WIDTH / 2, koopa->GetY());
-			koopa->ToShellSlidingRight();
+			koopa->SetState(KOOPA_STATE_SHELL_SLIDING_RIGHT);
 		}
 		else
 		{
@@ -440,24 +440,24 @@ void CMario::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 		{
 		case KOOPA_STATE_WALKING_LEFT:
 		case KOOPA_STATE_WALKING_RIGHT:
-			koopa->ToShell();
+			koopa->SetState(KOOPA_STATE_SHELL);
 			vy = -MARIO_JUMP_DEFLECT_SPEED;
 			break;
 		case KOOPA_STATE_SHELL:
 			if (x > koopa->GetX())
 			{
 				koopa->SetPosition(koopa->GetX() - KOOPA_SHELL_BBOX_WIDTH / 2, koopa->GetY());
-				koopa->ToShellSlidingLeft();
+				koopa->SetState(KOOPA_STATE_SHELL_SLIDING_LEFT);
 			}
 			else
 			{
 				koopa->SetPosition(koopa->GetX() + KOOPA_SHELL_BBOX_WIDTH / 2, koopa->GetY());
-				koopa->ToShellSlidingRight();
+				koopa->SetState(KOOPA_STATE_SHELL_SLIDING_RIGHT);
 			}
 			break;
 		case KOOPA_STATE_SHELL_SLIDING_LEFT:
 		case KOOPA_STATE_SHELL_SLIDING_RIGHT:
-			koopa->ToShell();
+			koopa->SetState(KOOPA_STATE_SHELL);
 			vy = -MARIO_JUMP_DEFLECT_SPEED;
 			break;
 		}
@@ -476,12 +476,12 @@ void CMario::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 			if (x > koopa->GetX())
 			{
 				koopa->SetPosition(koopa->GetX() - KOOPA_SHELL_BBOX_WIDTH / 2, koopa->GetY());
-				koopa->ToShellSlidingLeft();
+				koopa->SetState(KOOPA_STATE_SHELL_SLIDING_LEFT);
 			}
 			else
 			{
 				koopa->SetPosition(koopa->GetX() + KOOPA_SHELL_BBOX_WIDTH / 2, koopa->GetY());
-				koopa->ToShellSlidingRight();
+				koopa->SetState(KOOPA_STATE_SHELL_SLIDING_RIGHT);
 			}
 			break;
 		}
