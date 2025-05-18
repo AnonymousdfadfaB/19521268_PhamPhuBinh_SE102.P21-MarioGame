@@ -227,7 +227,6 @@ public:
 			isAttackingRight = true; attack_start = GetTickCount64(); 
 	}
 	bool IsAction() { return isAttackingLeft || isAttackingRight || isSitting || isHoldingShell; }
-	void HoldingShell(CKoopa*);
 	float GetWidth() {
 		if (level == MARIO_LEVEL_RACCOON)
 			return MARIO_RACCOON_BBOX_WIDTH;
@@ -257,21 +256,25 @@ public:
 	}
 	void MarioIsHit()
 	{
-		if (level == MARIO_LEVEL_RACCOON)
+		if (!untouchable) 
 		{
-			level = MARIO_LEVEL_BIG;
-			StartUntouchable();
+			if (level == MARIO_LEVEL_RACCOON)
+			{
+				level = MARIO_LEVEL_BIG;
+				StartUntouchable();
+			}
+			if (level == MARIO_LEVEL_BIG)
+			{
+				level = MARIO_LEVEL_SMALL;
+				StartUntouchable();
+			}
+			else
+			{
+				DebugOut(L">>> Mario DIE >>> \n");
+				SetState(MARIO_STATE_DIE);
+			}
 		}
-		if (level == MARIO_LEVEL_BIG)
-		{
-			level = MARIO_LEVEL_SMALL;
-			StartUntouchable();
-		}
-		else
-		{
-			DebugOut(L">>> Mario DIE >>> \n");
-			SetState(MARIO_STATE_DIE);
-		}
+
 	}
 	void UpdateShell(DWORD dt);
 };
