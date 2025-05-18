@@ -417,7 +417,7 @@ void CMario::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 		{
 			isHoldingShell = true;
 			shell = koopa;
-			koopa->IsHeldByMario();
+			//koopa->IsHeldByMario();
 		}
 		else if (e->nx > 0 && koopaState == KOOPA_STATE_SHELL)
 		{
