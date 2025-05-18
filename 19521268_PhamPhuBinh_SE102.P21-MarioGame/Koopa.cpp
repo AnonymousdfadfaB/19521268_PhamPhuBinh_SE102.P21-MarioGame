@@ -5,12 +5,20 @@
 #include "Scene.h"
 #include "PlayScene.h"
 #include "Mario.h"
-CKoopa::CKoopa(float x, float y) :CGameObject(x, y)
+CKoopa::CKoopa(float x, float y, float patrolDistance, int state, int type) :CGameObject(x, y)
 {
 	isHeld = false;
 	die_start = -1;
 	shell_start = -1;
-	SetState(KOOPA_STATE_JUMP_LEFT);
+	if (type == KOOPA_TYPE_RED)
+	{
+		leftBoundary = x - patrolDistance / 2;
+		rightBoundary = x + patrolDistance / 2;
+	}
+	this->x = x;
+	this->y = y;
+	this->type = type;
+	SetState(state);
 }
 void CKoopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
@@ -27,7 +35,19 @@ void CKoopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	}
 	if (state != KOOPA_STATE_SHELL)
 		isHeld = false;
-
+	if (type == KOOPA_TYPE_RED && (state == KOOPA_STATE_WALKING_LEFT || state == KOOPA_STATE_WALKING_RIGHT))
+	{
+		if (x <= leftBoundary)
+		{
+			if (state == KOOPA_STATE_WALKING_LEFT)
+				SetState(KOOPA_STATE_WALKING_RIGHT);
+		}
+		else if (x >= rightBoundary)
+		{
+			if (state == KOOPA_STATE_WALKING_RIGHT)
+				SetState(KOOPA_STATE_WALKING_LEFT);
+		}
+	}
 	if (state == KOOPA_STATE_DIE)
 		OnNoCollision(dt);
 	else

@@ -2,6 +2,9 @@
 #include "GameObject.h"
 
 
+#define KOOPA_TYPE_RED 10
+#define KOOPA_TYPE_GREEN 11
+
 #define KOOPA_GRAVITY 0.002f
 #define KOOPA_WALKING_SPEED 0.05f
 #define KOOPA_SHELL_SLIDING_SPEED 0.2f
@@ -35,7 +38,10 @@
 class CKoopa : public CGameObject
 {
 protected:
+	int type;
 	bool isHeld;
+	float leftBoundary;
+	float rightBoundary;
 	ULONGLONG die_start;
 	ULONGLONG shell_start;
 	void GetBoundingBox(float& left, float& top, float& right, float& bottom);
@@ -52,6 +58,6 @@ protected:
 	void OnCollisionWithKoopa(LPCOLLISIONEVENT e);
 
 public:
-	CKoopa(float x, float y);
+	CKoopa(float x, float y, float patrolDistance = 20, int state = KOOPA_STATE_WALKING_LEFT, int type = KOOPA_TYPE_RED);
 	virtual void SetState(int state);
 };
