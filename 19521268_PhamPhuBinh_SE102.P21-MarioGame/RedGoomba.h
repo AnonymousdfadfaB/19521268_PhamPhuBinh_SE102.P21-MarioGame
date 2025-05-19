@@ -28,7 +28,7 @@
 #define ID_ANI_RED_GOOMBA_HIGH_JUMP 6002
 #define ID_ANI_RED_GOOMBA_DIE 6003
 
-#define WALK_DURATION 2000
+#define WALK_DURATION 1270
 class CRedGoomba : public CGameObject
 {
 protected:

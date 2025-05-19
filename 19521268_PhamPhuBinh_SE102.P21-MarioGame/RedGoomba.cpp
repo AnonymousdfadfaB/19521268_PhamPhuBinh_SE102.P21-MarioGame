@@ -6,8 +6,8 @@ CRedGoomba::CRedGoomba(float x, float y) :CGameObject(x, y)
 	die_start = -1;
 	isOnPlatform = false;
 	number_small_jump = -1;
-	level = RED_GOOMBA_LEVEL_WINGED;
-	SetState(RED_GOOMBA_STATE_SMALL_JUMP_LEFT);
+	level = RED_GOOMBA_LEVEL_WINGLESS;
+	SetState(RED_GOOMBA_STATE_WALKING_LEFT);
 }
 void CRedGoomba::SetState(int state)
 {
