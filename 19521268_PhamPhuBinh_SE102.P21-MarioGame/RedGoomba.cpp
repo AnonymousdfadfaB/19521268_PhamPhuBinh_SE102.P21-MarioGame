@@ -4,6 +4,7 @@ CRedGoomba::CRedGoomba(float x, float y) :CGameObject(x, y)
 {
 	walk_start = -1;
 	die_start = -1;
+	isOnPlatform = false;
 	number_small_jump = -1;
 	number_high_jump = -1;
 	level = RED_GOOMBA_LEVEL_WINGED;
@@ -49,28 +50,40 @@ void CRedGoomba::SetState(int state)
 			nx = 1;
 			break;
 		case RED_GOOMBA_STATE_SMALL_JUMP_LEFT:
+			if (isOnPlatform)
+			{
+				vy = -RED_GOOMBA_SMALL_JUMP_SPEED;
+				isOnPlatform = false;
+			}
 			vx = -RED_GOOMBA_WALKING_SPEED;
-			vy = -RED_GOOMBA_SMALL_JUMP_SPEED;
 			nx = -1;
-			number_small_jump = 3;
 			break;
 		case RED_GOOMBA_STATE_SMALL_JUMP_RIGHT:
+			if (isOnPlatform)
+			{
+				vy = -RED_GOOMBA_SMALL_JUMP_SPEED;
+				isOnPlatform = false;
+			}
 			vx = RED_GOOMBA_WALKING_SPEED;
-			vy = -RED_GOOMBA_SMALL_JUMP_SPEED;
 			nx = 1;
-			number_small_jump = 3; // =2
 			break;
 		case RED_GOOMBA_STATE_HIGH_JUMP_LEFT:
+			if (isOnPlatform)
+			{
+				vy = -RED_GOOMBA_HIGH_JUMP_SPEED;
+				isOnPlatform = false;
+			}
 			vx = -RED_GOOMBA_WALKING_SPEED;
-			vy = -RED_GOOMBA_HIGH_JUMP_SPEED;
 			nx = -1;
-			number_high_jump = 1;
 			break;
 		case RED_GOOMBA_STATE_HIGH_JUMP_RIGHT:
+			if (isOnPlatform)
+			{
+				vy = -RED_GOOMBA_HIGH_JUMP_SPEED;
+				isOnPlatform = false;
+			}
 			vx = RED_GOOMBA_WALKING_SPEED;
-			vy = -RED_GOOMBA_HIGH_JUMP_SPEED;
 			nx = 1;
-			number_high_jump = 1; // =0
 			break;
 		case RED_GOOMBA_STATE_DIE:
 			vx = 0;
@@ -93,14 +106,42 @@ void CRedGoomba::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	}
 	if (level == RED_GOOMBA_LEVEL_WINGED)
 	{
-
-		if ((state == RED_GOOMBA_STATE_WALKING_LEFT || state == RED_GOOMBA_STATE_WALKING_RIGHT) && GetTickCount64() - walk_start > WALK_DURATION)
-			state == RED_GOOMBA_STATE_WALKING_LEFT ? SetState(RED_GOOMBA_STATE_SMALL_JUMP_LEFT) : SetState(RED_GOOMBA_STATE_SMALL_JUMP_RIGHT);
-		else if ((state == RED_GOOMBA_STATE_SMALL_JUMP_LEFT || state == RED_GOOMBA_STATE_SMALL_JUMP_RIGHT) && number_small_jump <= 0)
-			state == RED_GOOMBA_STATE_SMALL_JUMP_LEFT ? SetState(RED_GOOMBA_STATE_HIGH_JUMP_LEFT) : SetState(RED_GOOMBA_STATE_HIGH_JUMP_RIGHT);
-		else if ((state == RED_GOOMBA_STATE_HIGH_JUMP_LEFT || state == RED_GOOMBA_STATE_HIGH_JUMP_RIGHT) && number_high_jump <= 0)
-			state == RED_GOOMBA_STATE_SMALL_JUMP_LEFT ? SetState(RED_GOOMBA_STATE_WALKING_LEFT) : SetState(RED_GOOMBA_STATE_WALKING_RIGHT);
-
+		if (state == RED_GOOMBA_STATE_WALKING_LEFT || state == RED_GOOMBA_STATE_WALKING_RIGHT)
+		{
+			if (GetTickCount64() - walk_start > WALK_DURATION && isOnPlatform)
+			{
+				walk_start = -1; //reset walk_start
+				state == RED_GOOMBA_STATE_WALKING_LEFT ? SetState(RED_GOOMBA_STATE_SMALL_JUMP_LEFT) : SetState(RED_GOOMBA_STATE_SMALL_JUMP_RIGHT);
+				number_small_jump = 2;
+			}
+		}
+		else if (state == RED_GOOMBA_STATE_SMALL_JUMP_LEFT || state == RED_GOOMBA_STATE_SMALL_JUMP_RIGHT)
+		{
+			if (number_small_jump >= 0 )
+			{
+				if (isOnPlatform)
+				{
+					SetState(state);
+					number_small_jump -= 1;
+				}
+			} 
+			else
+			{
+				if (isOnPlatform)
+				{
+					state == RED_GOOMBA_STATE_SMALL_JUMP_LEFT ? SetState(RED_GOOMBA_STATE_HIGH_JUMP_LEFT) : SetState(RED_GOOMBA_STATE_HIGH_JUMP_RIGHT);
+					number_high_jump = 0; //don't need
+				}
+			}
+		}
+		else if (state == RED_GOOMBA_STATE_HIGH_JUMP_LEFT || state == RED_GOOMBA_STATE_HIGH_JUMP_RIGHT)
+		{
+			if (isOnPlatform)
+			{
+				state == RED_GOOMBA_STATE_HIGH_JUMP_LEFT ? SetState(RED_GOOMBA_STATE_WALKING_LEFT) : SetState(RED_GOOMBA_STATE_WALKING_RIGHT);
+				walk_start = GetTickCount64();
+			}
+		}
 	}
 	CCollision::GetInstance()->Process(this, dt, coObjects);
 }
@@ -133,8 +174,14 @@ void CRedGoomba::OnCollisionWith(LPCOLLISIONEVENT e)
 	if (!e->obj->IsBlocking()) return;
 	if (level == RED_GOOMBA_LEVEL_WINGLESS)
 	{
-		if (e->ny != 0)
+		if (e->ny > 0)
 		{
+			vy = 0;
+
+		}
+		else if (e->ny < 0)
+		{
+			isOnPlatform = true;
 			vy = 0;
 		}
 		else if (e->nx != 0)
@@ -151,44 +198,50 @@ void CRedGoomba::OnCollisionWith(LPCOLLISIONEVENT e)
 	}
 	else
 	{
-		if (e->ny < 0)
+		if (e->ny > 0)
 		{
-			if (state == RED_GOOMBA_STATE_SMALL_JUMP_LEFT || state == RED_GOOMBA_STATE_SMALL_JUMP_RIGHT)
-			{
+			vy = 0;
 
-			}
-			else if (state == RED_GOOMBA_STATE_HIGHT_JUMP_LEFT || state == RED_GOOMBA_STATE_HIGH_JUMP_RIGHT)
+		}
+		else if (e->ny < 0)
+		{
+			isOnPlatform = true;
+			vy = 0;
+		}
+		else if (e->nx != 0)
+		{
+			if (state == RED_GOOMBA_STATE_WALKING_LEFT)
 			{
-				vx = RED_GOOMBA_WALKING_SPEED;
-				vy = -RED_GOOMBA_HIGH_JUMP_SPEED;
-				nx = 1;
-				number_high_jump = 1;
+				SetState(RED_GOOMBA_STATE_WALKING_RIGHT);
+			}
+			else if (state == RED_GOOMBA_STATE_WALKING_RIGHT)
+			{
+				SetState(RED_GOOMBA_STATE_WALKING_LEFT);
+			}
+			else if (state == RED_GOOMBA_STATE_SMALL_JUMP_LEFT)
+			{
+				SetState(RED_GOOMBA_STATE_SMALL_JUMP_RIGHT);
+			} 
+			else if (state == RED_GOOMBA_STATE_SMALL_JUMP_RIGHT)
+			{
+				SetState(RED_GOOMBA_STATE_SMALL_JUMP_LEFT);
+			}
+			else if (state == RED_GOOMBA_STATE_HIGH_JUMP_LEFT)
+			{
+				SetState(RED_GOOMBA_STATE_HIGH_JUMP_RIGHT);
+			}
+			else if (state == RED_GOOMBA_STATE_HIGH_JUMP_RIGHT)
+			{
+				SetState(RED_GOOMBA_STATE_HIGH_JUMP_LEFT);
 			}
 		}
 	}
 
 }
 
-void CGoomba::Render()
+void CRedGoomba::Render()
 {
-	int aniId = ID_ANI_GOOMBA_WALKING;
-	if (type == GOOMBA_TYPE_RED)
-		aniID = GetAniIdGoombaRed();
-	else
-		aniID = GetAniIdGoombaBrown();
-	CAnimations::GetInstance()->Get(aniId)->Render(x, y);
-}
-
-
-int CGoomba::GetAniIdGoombaBrown()
-{
-	if (state == GOOMBA_STATE_DIE)
-		return ID_ANI_GOOMBA_BROWN_DIE;
-	else if (state == GOOMBA_STATE_WALKING_LEFT || state == GOOMBA_STATE_WALKING_RIGHT)
-		return ID_ANI_GOOMBA_BROWN_WALKING;
-}
-int CGoomba::GetAniIdGoombaRed()
-{
+	int aniId = ID_ANI_RED_GOOMBA_WALKING;
 	if (state == GOOMBA_STATE_DIE)
 		return ID_ANI_GOOMBA_RED_DIE;
 	else if (state == GOOMBA_STATE_WALKING_LEFT || state == GOOMBA_STATE_WALKING_RIGHT)
@@ -197,4 +250,10 @@ int CGoomba::GetAniIdGoombaRed()
 		return ID_ANI_GOOMBA_WALKING_JUMP_LEFT;
 	else if (state == GOOMBA_STATE_WALKING_JUMP_RIGHT)
 		return ID_ANI_GOOMBA_WALKING_JUMP_RIGHT;
+	CAnimations::GetInstance()->Get(aniId)->Render(x, y);
+}
+
+int CGoomba::GetAniIdGoombaRed()
+{
+
 }

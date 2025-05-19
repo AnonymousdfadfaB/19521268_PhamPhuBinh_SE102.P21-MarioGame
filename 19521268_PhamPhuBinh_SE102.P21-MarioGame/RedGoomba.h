@@ -34,6 +34,7 @@ class CRedGoomba : public CGameObject
 protected:
 	ULONGLONG die_start;
 	ULONGLONG walk_start;
+	bool isOnPlatform;
 	int number_small_jump;
 	int number_high_jump;
 	int level;
