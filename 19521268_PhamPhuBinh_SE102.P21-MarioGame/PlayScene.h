@@ -5,7 +5,7 @@
 #include "GameObject.h"
 #include "Brick.h"
 #include "Mario.h"
-#include "Goomba.h"
+#include "BrownGoomba.h"
 //#include "Koopas.h"
 
 

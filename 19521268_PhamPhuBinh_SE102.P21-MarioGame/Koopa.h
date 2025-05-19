@@ -53,7 +53,7 @@ protected:
 	void OnNoCollision(DWORD dt);
 
 	void OnCollisionWith(LPCOLLISIONEVENT e);
-	void OnCollisionWithGoomba(LPCOLLISIONEVENT e);
+	void OnCollisionWithBrownGoomba(LPCOLLISIONEVENT e);
 	void OnCollisionWithQuestionBlock(LPCOLLISIONEVENT e);
 	void OnCollisionWithKoopa(LPCOLLISIONEVENT e);
 

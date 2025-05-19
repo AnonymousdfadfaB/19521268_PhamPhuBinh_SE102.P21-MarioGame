@@ -1,5 +1,5 @@
 #include "Koopa.h"
-#include "Goomba.h"
+#include "BrownGoomba.h"
 #include "QuestionBlock.h"
 #include "Game.h"
 #include "Scene.h"
@@ -29,7 +29,7 @@ void CKoopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		(int)now % 2 == 0 ? SetState(KOOPA_STATE_WALKING_RIGHT) : SetState(KOOPA_STATE_WALKING_LEFT);
 	}
 
-	if (state == KOOPA_STATE_DIE && GetTickCount64() - die_start > GOOMBA_DIE_TIMEOUT)
+	if (state == KOOPA_STATE_DIE && GetTickCount64() - die_start > KOOPA_DIE_TIMEOUT)
 	{
 		isDeleted = true;
 	}
@@ -117,24 +117,23 @@ void CKoopa::OnCollisionWith(LPCOLLISIONEVENT e)
 				SetState(KOOPA_STATE_JUMP_LEFT);
 		}
 	}
-	if (dynamic_cast<CGoomba*>(e->obj))
-		OnCollisionWithGoomba(e);
+	if (dynamic_cast<CBrownGoomba*>(e->obj))
+		OnCollisionWithBrownGoomba(e);
 	else if (dynamic_cast<CQuestionBlock*>(e->obj))
 		OnCollisionWithQuestionBlock(e);
 	else if (dynamic_cast<CKoopa*>(e->obj))
 		OnCollisionWithKoopa(e);
-
 }
 
 
-void CKoopa::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
+void CKoopa::OnCollisionWithBrownGoomba(LPCOLLISIONEVENT e)
 {
 	if (state == KOOPA_STATE_SHELL_SLIDING_LEFT || state == KOOPA_STATE_SHELL_SLIDING_RIGHT)
 	{
-		CGoomba* goomba = dynamic_cast<CGoomba*>(e->obj);
-		if (goomba->GetState() != GOOMBA_STATE_DIE)
+		CBrownGoomba* brownGoomba = dynamic_cast<CBrownGoomba*>(e->obj);
+		if (brownGoomba->GetState() != BROWN_GOOMBA_STATE_DIE)
 		{
-			goomba->SetState(GOOMBA_STATE_DIE);
+			brownGoomba->SetState(BROWN_GOOMBA_STATE_DIE);
 		}
 	}
 }

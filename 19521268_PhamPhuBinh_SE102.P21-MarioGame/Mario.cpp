@@ -4,7 +4,7 @@
 #include "Mario.h"
 #include "Game.h"
 
-#include "Goomba.h"
+#include "BrownGoomba.h"
 #include "Coin.h"
 #include "Portal.h"
 #include "QuestionBlock.h"
@@ -93,8 +93,8 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		vx = 0;
 	}
 
-	if (dynamic_cast<CGoomba*>(e->obj))
-		OnCollisionWithGoomba(e);
+	if (dynamic_cast<CBrownGoomba*>(e->obj))
+		OnCollisionWithBrownGoomba(e);
 	else if (dynamic_cast<CCoin*>(e->obj))
 		OnCollisionWithCoin(e);
 	else if (dynamic_cast<CPortal*>(e->obj))
@@ -109,14 +109,14 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithKoopa(e);
 }
 
-void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
+void CMario::OnCollisionWithBrownGoomba(LPCOLLISIONEVENT e)
 {
-	CGoomba* goomba = dynamic_cast<CGoomba*>(e->obj);
+	CBrownGoomba* brownGoomba = dynamic_cast<CBrownGoomba*>(e->obj);
 	if (isAttackingLeft || isAttackingRight)
 	{
-		if (goomba->GetState() != GOOMBA_STATE_DIE)
+		if (brownGoomba->GetState() != BROWN_GOOMBA_STATE_DIE)
 		{
-			goomba->SetState(GOOMBA_STATE_DIE);
+			brownGoomba->SetState(BROWN_GOOMBA_STATE_DIE);
 
 		}
 		return;
@@ -238,15 +238,15 @@ void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 	// jump on top >> kill Goomba and deflect a bit 
 	if (e->ny < 0)
 	{
-		if (goomba->GetState() != GOOMBA_STATE_DIE)
+		if (brownGoomba->GetState() != BROWN_GOOMBA_STATE_DIE)
 		{
-			goomba->SetState(GOOMBA_STATE_DIE);
+			brownGoomba->SetState(BROWN_GOOMBA_STATE_DIE);
 			vy = -MARIO_JUMP_DEFLECT_SPEED;
 		}
 	}
 	else // hit by Goomba
 	{
-			if (goomba->GetState() != GOOMBA_STATE_DIE)
+			if (brownGoomba->GetState() != BROWN_GOOMBA_STATE_DIE)
 			{
 				MarioIsHit();
 			}

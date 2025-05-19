@@ -162,7 +162,7 @@ class CMario : public CGameObject
 	int coin; 
 	int up;
 
-	void OnCollisionWithGoomba(LPCOLLISIONEVENT e);
+	void OnCollisionWithBrownGoomba(LPCOLLISIONEVENT e);
 	void OnCollisionWithCoin(LPCOLLISIONEVENT e);
 	void OnCollisionWithPortal(LPCOLLISIONEVENT e);
 	void OnCollisionWithQuestionBlock(LPCOLLISIONEVENT e);
