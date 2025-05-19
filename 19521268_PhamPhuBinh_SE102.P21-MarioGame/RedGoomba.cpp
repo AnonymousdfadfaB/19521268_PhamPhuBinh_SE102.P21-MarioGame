@@ -7,7 +7,7 @@ CRedGoomba::CRedGoomba(float x, float y) :CGameObject(x, y)
 	isOnPlatform = false;
 	number_small_jump = -1;
 	level = RED_GOOMBA_LEVEL_WINGED;
-	SetState(RED_GOOMBA_STATE_WALKING_LEFT);
+	SetState(RED_GOOMBA_STATE_SMALL_JUMP_LEFT);
 }
 void CRedGoomba::SetState(int state)
 {
@@ -239,14 +239,26 @@ void CRedGoomba::OnCollisionWith(LPCOLLISIONEVENT e)
 
 void CRedGoomba::Render()
 {
-	int aniId = ID_ANI_RED_GOOMBA_WALKING;
-	if (state == RED_GOOMBA_STATE_DIE)
-		aniId = ID_ANI_RED_GOOMBA_DIE; 
-	else if (state == RED_GOOMBA_STATE_WALKING_LEFT || state == RED_GOOMBA_STATE_WALKING_RIGHT)
-		aniId =  ID_ANI_RED_GOOMBA_WALKING;
-	else if (state == RED_GOOMBA_STATE_SMALL_JUMP_LEFT || state == RED_GOOMBA_STATE_SMALL_JUMP_RIGHT)
-		aniId = ID_ANI_RED_GOOMBA_SMALL_JUMP;
-	else if (state == RED_GOOMBA_STATE_HIGH_JUMP_RIGHT || state == RED_GOOMBA_STATE_HIGH_JUMP_LEFT)
-		aniId = ID_ANI_RED_GOOMBA_HIGH_JUMP;
+	int aniId;
+	if (level == RED_GOOMBA_LEVEL_WINGLESS)
+	{
+		if (state == RED_GOOMBA_STATE_DIE)
+			aniId = ID_ANI_RED_GOOMBA_DIE;
+		else if (state == RED_GOOMBA_STATE_WALKING_LEFT || state == RED_GOOMBA_STATE_WALKING_RIGHT)
+			aniId = ID_ANI_WINGLESS_RED_GOOMBA_WALKING;
+	}
+	else
+	{
+		if (state == RED_GOOMBA_STATE_HIGH_JUMP_RIGHT || state == RED_GOOMBA_STATE_HIGH_JUMP_LEFT)
+		{
+			aniId = ID_ANI_RED_GOOMBA_HIGH_JUMP;
+		} 
+		else if (state == RED_GOOMBA_STATE_DIE)
+			aniId = ID_ANI_RED_GOOMBA_DIE;
+		else
+		{
+			aniId = ID_ANI_WINGED_RED_GOOMBA_WALKING_AND_SMALL_JUMP;
+		}
+	}
 	CAnimations::GetInstance()->Get(aniId)->Render(x, y);
 }
