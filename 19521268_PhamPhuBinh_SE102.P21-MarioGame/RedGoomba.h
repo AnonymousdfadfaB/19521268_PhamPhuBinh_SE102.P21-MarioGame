@@ -36,7 +36,6 @@ protected:
 	ULONGLONG walk_start;
 	bool isOnPlatform;
 	int number_small_jump;
-	int number_high_jump;
 	int level;
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
