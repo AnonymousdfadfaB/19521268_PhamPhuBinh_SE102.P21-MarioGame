@@ -10,6 +10,7 @@ mushroom.txt
 goomba.txt
 leaf.txt
 koopa.txt
+pipe.txt
 #
 [OBJECTS]
 # type	x	y	extra_settings per object type
@@ -45,5 +46,7 @@ koopa.txt
 #Koopa
 7	240	-30
 7	280	-30
+#Pipe
+9	240	-100
 
 

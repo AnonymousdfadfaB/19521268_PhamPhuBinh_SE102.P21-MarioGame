@@ -96,6 +96,9 @@
     <ClCompile Include="RedGoomba.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Pipe.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h">
@@ -179,6 +182,9 @@
     <ClInclude Include="RedGoomba.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Pipe.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="brick.txt" />
@@ -195,6 +201,7 @@
     <Text Include="questionblock.txt" />
     <Text Include="leaf.txt" />
     <Text Include="koopa.txt" />
+    <Text Include="pipe.txt" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="mario.ico">
@@ -216,6 +223,9 @@
       <Filter>textures</Filter>
     </Image>
     <Image Include="textures\enemies_2.png">
+      <Filter>textures</Filter>
+    </Image>
+    <Image Include="textures\misc2.png">
       <Filter>textures</Filter>
     </Image>
   </ItemGroup>
