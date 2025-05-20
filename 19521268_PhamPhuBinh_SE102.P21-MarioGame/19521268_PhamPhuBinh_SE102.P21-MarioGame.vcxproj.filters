@@ -99,6 +99,9 @@
     <ClCompile Include="Pipe.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="NoFirePlant.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h">
@@ -185,6 +188,9 @@
     <ClInclude Include="Pipe.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="NoFirePlant.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="brick.txt" />
@@ -202,6 +208,7 @@
     <Text Include="leaf.txt" />
     <Text Include="koopa.txt" />
     <Text Include="pipe.txt" />
+    <Text Include="plant.txt" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="mario.ico">
