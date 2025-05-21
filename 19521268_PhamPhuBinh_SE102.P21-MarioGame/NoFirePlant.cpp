@@ -162,7 +162,6 @@ void CNoFirePlant::Render()
 			break;
 		}
 		break;
-		/*
 	case FIRE_RED_PLANT:
 		switch (GetMarioRelativePosition())
 		{
@@ -180,7 +179,6 @@ void CNoFirePlant::Render()
 			break;
 		}
 		break;
-		*/
 	}
 	CAnimations::GetInstance()->Get(aniId)->Render(x, y);
 }

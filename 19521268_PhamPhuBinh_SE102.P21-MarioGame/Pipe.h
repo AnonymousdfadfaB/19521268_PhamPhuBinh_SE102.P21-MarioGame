@@ -40,7 +40,7 @@ public:
 			content = NULL;
 			break;
 		case PIPE_CONTENT_NO_FIRE_GREEN_PLANT:
-			content = new CNoFirePlant(x, y - (height / 2 - NO_FIRE_GREEN_PLANT_HEIGHT / 2), FIRE_GREEN_PLANT, this); // 24
+			content = new CNoFirePlant(x, y - (height / 2 - FIRE_RED_PLANT_HEIGHT / 2), FIRE_RED_PLANT, this); // 24
 			((CPlayScene*)CGame::GetInstance()->GetCurrentScene())->AddObject(content); //view push back in objects, may by leads to wrong index render
 			break;
 		case PIPE_CONTENT_FIRE_GREEN_PLANT:
