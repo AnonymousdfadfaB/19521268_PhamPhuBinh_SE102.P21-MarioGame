@@ -1,9 +1,9 @@
 #pragma once
 #include "GameObject.h"
-#include "Pipe.h"
+//#include "Pipe.h"
 
-#define HIDE_DURATION 500.0f
-#define ATTACK_DURATION 500.0f
+#define HIDE_DURATION 2000.0f
+#define ATTACK_DURATION 2000.0f
 #define NO_FIRE_GREEN_PLANT_VERTICAL_SPEED 0.05f
 
 #define NO_FIRE_GREEN_PLANT_WIDTH 16

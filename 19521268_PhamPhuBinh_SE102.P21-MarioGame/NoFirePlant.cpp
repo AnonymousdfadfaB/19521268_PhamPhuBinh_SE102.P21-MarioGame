@@ -6,7 +6,7 @@ CNoFirePlant::CNoFirePlant(float x, float y, CGameObject* pipe):CGameObject(x, y
 	minY = y;
 	maxY = y - NO_FIRE_GREEN_PLANT_HEIGHT;
 	this->pipe = pipe;
-	SetState(BROWN_GOOMBA_STATE_WALKING_LEFT);
+	SetState(NO_FIRE_GREEN_PLANT_STATE_HIDE);
 }
 void CNoFirePlant::SetState(int state)
 {
@@ -50,7 +50,7 @@ void CNoFirePlant::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		}
 		break;
 	case NO_FIRE_GREEN_PLANT_STATE_RISE:
-		if (y >= maxY)
+		if (y <= maxY)
 		{
 			y = maxY;
 			SetState(NO_FIRE_GREEN_PLANT_STATE_ATTACK);
@@ -64,7 +64,7 @@ void CNoFirePlant::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		}
 		break;
 	case NO_FIRE_GREEN_PLANT_STATE_DOWN:
-		if (y <= minY)
+		if (y >= minY)
 		{
 			y = minY;
 			SetState(NO_FIRE_GREEN_PLANT_STATE_HIDE);

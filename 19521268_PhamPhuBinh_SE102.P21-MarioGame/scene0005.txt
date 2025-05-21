@@ -11,6 +11,7 @@ goomba.txt
 leaf.txt
 koopa.txt
 pipe.txt
+plant.txt
 #
 [OBJECTS]
 # type	x	y	extra_settings per object type
