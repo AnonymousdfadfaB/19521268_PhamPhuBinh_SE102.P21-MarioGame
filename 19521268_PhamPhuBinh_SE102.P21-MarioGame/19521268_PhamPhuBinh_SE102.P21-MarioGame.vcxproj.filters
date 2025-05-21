@@ -99,7 +99,7 @@
     <ClCompile Include="Pipe.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="NoFirePlant.cpp">
+    <ClCompile Include="PlantEnemy.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -188,7 +188,7 @@
     <ClInclude Include="Pipe.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="NoFirePlant.h">
+    <ClInclude Include="PlantEnemy.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

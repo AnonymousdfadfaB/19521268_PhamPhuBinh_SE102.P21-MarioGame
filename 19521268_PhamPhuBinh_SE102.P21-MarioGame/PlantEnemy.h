@@ -45,7 +45,7 @@
 #define MARIO_POSITION_RIGHT_TOP 2
 #define MARIO_POSITION_LEFT_BOTTOM 3
 #define MARIO_POSITION_RIGHT_BOTTOM 4
-class CNoFirePlant : public CGameObject
+class CPlantEnemy : public CGameObject
 {
 protected:
 	CGameObject* pipe;
@@ -68,6 +68,6 @@ protected:
 	int GetMarioRelativePosition();
 
 public:
-	CNoFirePlant(float x, float y, int type, CGameObject* pipe);
+	CPlantEnemy(float x, float y, int type, CGameObject* pipe);
 	virtual void SetState(int state);
 };

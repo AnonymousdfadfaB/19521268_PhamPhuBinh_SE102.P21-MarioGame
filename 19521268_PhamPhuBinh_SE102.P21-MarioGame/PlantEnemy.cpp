@@ -1,7 +1,7 @@
 
-#include "NoFirePlant.h"
+#include "PlantEnemy.h"
 
-CNoFirePlant::CNoFirePlant(float x, float y, int type, CGameObject* pipe):CGameObject(x, y)
+CPlantEnemy::CPlantEnemy(float x, float y, int type, CGameObject* pipe):CGameObject(x, y)
 {
 	this->type = type;
 	switch (type)
@@ -28,7 +28,7 @@ CNoFirePlant::CNoFirePlant(float x, float y, int type, CGameObject* pipe):CGameO
 	this->pipe = pipe;
 	SetState(HIDE_STATE);
 }
-void CNoFirePlant::SetState(int state)
+void CPlantEnemy::SetState(int state)
 {
 
 	switch (state)
@@ -54,7 +54,7 @@ void CNoFirePlant::SetState(int state)
 	}
 	CGameObject::SetState(state);
 }
-void CNoFirePlant::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
+void CPlantEnemy::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	if (state == DIE_STATE)
 	{
@@ -101,17 +101,17 @@ void CNoFirePlant::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	y += vy * dt;
 	//CCollision::GetInstance()->Process(this, dt, coObjects);
 }
-void CNoFirePlant::OnNoCollision(DWORD dt)
+void CPlantEnemy::OnNoCollision(DWORD dt)
 {
 	x += vx * dt;
 	y += vy * dt;
 };
 
-void CNoFirePlant::OnCollisionWith(LPCOLLISIONEVENT e)
+void CPlantEnemy::OnCollisionWith(LPCOLLISIONEVENT e)
 {
 
 }
-void CNoFirePlant::GetBoundingBox(float& left, float& top, float& right, float& bottom)
+void CPlantEnemy::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
 	switch(type)
 	{
@@ -137,7 +137,7 @@ void CNoFirePlant::GetBoundingBox(float& left, float& top, float& right, float& 
 
 }
 
-void CNoFirePlant::Render()
+void CPlantEnemy::Render()
 {
 	int aniId;
 	switch (type)
@@ -182,7 +182,7 @@ void CNoFirePlant::Render()
 	}
 	CAnimations::GetInstance()->Get(aniId)->Render(x, y);
 }
-int CNoFirePlant::GetMarioRelativePosition()
+int CPlantEnemy::GetMarioRelativePosition()
 {
 	int position = 0;
 	CMario* mario = (CMario*)((CPlayScene*)CGame::GetInstance()->GetCurrentScene())->GetPlayer();

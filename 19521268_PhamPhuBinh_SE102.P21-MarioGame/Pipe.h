@@ -7,7 +7,7 @@
 #include "Game.h"
 #include "Scene.h"
 #include "PlayScene.h"
-#include "NoFirePlant.h"
+#include "PlantEnemy.h"
 
 #define ID_SPRITE_VIRTICLE_PIPE 11000
 #define ID_SPRITE_HORIZONTAL_PIPE 11001
@@ -28,7 +28,7 @@ class CPipe : public CGameObject {
 	int typeContent;
 	CGameObject* content;
 public:
-	CPipe(float x, float y, float width = 31, float height = 31, int spriteId = 11001, int typeContent = PIPE_CONTENT_NO_FIRE_GREEN_PLANT) : CGameObject(x, y)
+	CPipe(float x, float y, float width = 31, float height = 31, int spriteId = 11001, int typeContent = PIPE_CONTENT_FIRE_RED_PLANT) : CGameObject(x, y)
 	{
 		this->width = width;
 		this->height = height;
@@ -40,16 +40,16 @@ public:
 			content = NULL;
 			break;
 		case PIPE_CONTENT_NO_FIRE_GREEN_PLANT:
-			content = new CNoFirePlant(x, y - (height / 2 - FIRE_RED_PLANT_HEIGHT / 2), FIRE_RED_PLANT, this); // 24
+			content = new CPlantEnemy(x, y - (height / 2 - NO_FIRE_GREEN_PLANT_HEIGHT / 2), NO_FIRE_GREEN_PLANT, this); // 24
 			((CPlayScene*)CGame::GetInstance()->GetCurrentScene())->AddObject(content); //view push back in objects, may by leads to wrong index render
 			break;
 		case PIPE_CONTENT_FIRE_GREEN_PLANT:
-			//content = new CFirePlant(x, y, this);
-			((CPlayScene*)CGame::GetInstance()->GetCurrentScene())->AddObject(content);
+			content = new CPlantEnemy(x, y - (height / 2 - FIRE_GREEN_PLANT_HEIGHT / 2), FIRE_GREEN_PLANT, this); // 24
+			((CPlayScene*)CGame::GetInstance()->GetCurrentScene())->AddObject(content); //view push back in objects, may by leads to wrong index render
 			break;
 		case PIPE_CONTENT_FIRE_RED_PLANT:
-			//content = new CFirePlant(x, y, this);
-			((CPlayScene*)CGame::GetInstance()->GetCurrentScene())->AddObject(content);
+			content = new CPlantEnemy(x, y - (height / 2 - FIRE_RED_PLANT_HEIGHT / 2), FIRE_RED_PLANT, this); // 24
+			((CPlayScene*)CGame::GetInstance()->GetCurrentScene())->AddObject(content); //view push back in objects, may by leads to wrong index render
 			break;
 		}
 	}
