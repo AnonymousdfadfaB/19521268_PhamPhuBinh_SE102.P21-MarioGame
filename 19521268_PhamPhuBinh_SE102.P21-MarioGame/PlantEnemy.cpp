@@ -95,7 +95,8 @@ void CPlantEnemy::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 	if (canFire && state == ATTACK_STATE && !alreadyFire)
 	{
-		((CPlayScene*)CGame::GetInstance()->GetCurrentScene())->AddObject(new CFireball(x, y)); //CFireBall(x, y)
+		CMario* mario =(CMario*)((CPlayScene*)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
+		((CPlayScene*)CGame::GetInstance()->GetCurrentScene())->AddObject(new CFireball(x, y, mario->GetX(), mario->GetY())); //CFireBall(x, y)
 		alreadyFire = true;
 	}
 	y += vy * dt;

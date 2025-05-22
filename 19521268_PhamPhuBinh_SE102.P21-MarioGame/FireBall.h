@@ -20,8 +20,26 @@ protected:
 public:
 	CFireball(float x, float y,float targetX = 0, float targetY = 0) : CGameObject(x, y)
 	{
-		this->vx = FIREBALL_HORIZONTAL_SPEED;
-		this->vy = FIREBALL_HORIZONTAL_SPEED;
+		if (x < targetX)
+		{
+			this->vx = FIREBALL_HORIZONTAL_SPEED;
+			this->vy = (targetY - y) / (targetX - x) * this->vx;
+		}
+
+		else if (x > targetX)
+		{
+			this->vx = -FIREBALL_HORIZONTAL_SPEED;
+			this->vy = (targetY - y) / (targetX - x) * this->vx;
+		}
+
+		else
+		{
+			this->vx = 0;
+			if (y < targetY)
+				this->vy = FIREBALL_HORIZONTAL_SPEED / 10;
+			else
+				this->vy = FIREBALL_HORIZONTAL_SPEED / 10;
+		}
 	}
 	void Render();
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
