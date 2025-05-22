@@ -6,8 +6,8 @@
 #include "Animations.h"
 
 //parameters of operation
-#define FIREBALL_VERTICLE_SPEED 0.01f
-#define FIREBALL_HORIZONTAL_SPEED 0.01f
+#define FIREBALL_VERTICLE_SPEED 0.1f
+#define FIREBALL_HORIZONTAL_SPEED 0.1f
 //ani id
 #define FIREBALL_ANI_ID 91001
 //width, height
