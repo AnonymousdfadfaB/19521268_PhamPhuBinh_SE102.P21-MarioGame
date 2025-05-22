@@ -36,9 +36,9 @@ public:
 		{
 			this->vx = 0;
 			if (y < targetY)
-				this->vy = FIREBALL_HORIZONTAL_SPEED / 10;
+				this->vy = FIREBALL_HORIZONTAL_SPEED;
 			else
-				this->vy = FIREBALL_HORIZONTAL_SPEED / 10;
+				this->vy = FIREBALL_HORIZONTAL_SPEED;
 		}
 	}
 	void Render();
