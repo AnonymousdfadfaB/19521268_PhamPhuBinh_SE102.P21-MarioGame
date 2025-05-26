@@ -13,6 +13,7 @@ koopa.txt
 pipe.txt
 plant.txt
 fireball.txt
+card.txt
 #
 [OBJECTS]
 # type	x	y	extra_settings per object type
@@ -21,8 +22,10 @@ fireball.txt
 
 # MARIO
 0	120	10
-#GOOMBA
-
+#Card
+10	263	391	48	48	100001
+#56 to 54 width
+10	299	375	54	80	100002
 #COIN
 4	120	-40
 4	140	-40
@@ -32,11 +35,8 @@ fireball.txt
 #2 	200	-30
 #RED GOOMBA
 8	200	-30
-
-
-
 #Platform
-5 	8	49.5	16	15	84	41000	42000	43000
+5 	8	423	16	16	39	41000	42000	43000
 #Question Block
 6	50	-20	101
 6	80	-20	102
@@ -50,5 +50,6 @@ fireball.txt
 7	280	-30
 #Pipe
 9	240	-100
+
 
 

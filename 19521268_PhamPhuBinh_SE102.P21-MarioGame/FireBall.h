@@ -6,8 +6,7 @@
 #include "Animations.h"
 
 //parameters of operation
-#define FIREBALL_VERTICLE_SPEED 0.1f
-#define FIREBALL_HORIZONTAL_SPEED 0.1f
+#define FIREBALL_SPEED 0.1f
 //ani id
 #define FIREBALL_ANI_ID 91001
 //width, height
@@ -24,8 +23,8 @@ public:
 		float dx = targetX - x;
 		float dy = targetY - y;
 		float d = sqrt(pow(dx, 2) + pow(dy, 2));
-		this->vx = dx / d * 0.1;
-		this->vy = dy / d * 0.1;
+		this->vx = dx / d * FIREBALL_SPEED;
+		this->vy = dy / d * FIREBALL_SPEED;
 
 	}
 	void Render();

@@ -102,6 +102,12 @@
     <ClCompile Include="PlantEnemy.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Fireball.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Card.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h">
@@ -191,6 +197,12 @@
     <ClInclude Include="PlantEnemy.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="FireBall.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Card.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="brick.txt" />
@@ -209,6 +221,8 @@
     <Text Include="koopa.txt" />
     <Text Include="pipe.txt" />
     <Text Include="plant.txt" />
+    <Text Include="fireball.txt" />
+    <Text Include="card.txt" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="mario.ico">

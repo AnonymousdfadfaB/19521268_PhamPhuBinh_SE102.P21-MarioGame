@@ -12,6 +12,7 @@
 #include "QuestionBlock.h"
 #include "Koopa.h"
 #include "Pipe.h"
+#include "Card.h"
 #include "SampleKeyEventHandler.h"
 
 using namespace std;
@@ -149,7 +150,15 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 
 		break;
 	}
+	case OBJECT_TYPE_CARD:
+	{
 
+		float width = (float)atof(tokens[3].c_str());
+		float height = (float)atof(tokens[4].c_str());
+		int spriteId = atoi(tokens[5].c_str());
+		obj = new CCard(x, y, width, height, spriteId);
+		break;
+	}
 	case OBJECT_TYPE_PORTAL:
 	{
 		float r = (float)atof(tokens[3].c_str());
@@ -278,8 +287,9 @@ void CPlayScene::Update(DWORD dt)
 
 void CPlayScene::Render()
 {
-	for (int i = 0; i < objects.size(); i++)
+	for (int i = 1; i < objects.size(); i++)
 		objects[i]->Render();
+	objects[0]->Render(); //render mario later
 }
 
 /*

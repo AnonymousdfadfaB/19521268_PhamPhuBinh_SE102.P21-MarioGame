@@ -15,7 +15,6 @@ class CPlayScene: public CScene
 protected: 
 	// A play scene has to have player, right? 
 	LPGAMEOBJECT player;					
-
 	vector<LPGAMEOBJECT> objects;
 
 	void _ParseSection_SPRITES(string line);

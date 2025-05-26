@@ -1,0 +1,6 @@
+# id	left	top	right	bottom	texture_id
+[SPRITES]
+#x=263, y =391, 48x48
+100001	240	368	287	415	30
+#x=299, y=375, 56x80
+100002	272	336	327	415	30
