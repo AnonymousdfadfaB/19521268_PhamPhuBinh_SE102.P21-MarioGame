@@ -36,6 +36,7 @@ void CQuestionBlock::GenerateGreenMushroom() {
 }
 void CQuestionBlock::GenerateLeaf() {
 	content = new CLeaf(x, y);
+	content->SetSpeed(0, -LEAF_BOUNCE_SPEED);
 	dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->AddObject(content);
 }
 void CQuestionBlock::GetBoundingBox(float& l, float& t, float& r, float& b)
