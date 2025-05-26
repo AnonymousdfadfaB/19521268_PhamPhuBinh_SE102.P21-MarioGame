@@ -14,7 +14,7 @@
 #include "Pipe.h"
 #include "Card.h"
 #include "SampleKeyEventHandler.h"
-
+#include "SceneObject.h"
 using namespace std;
 
 CPlayScene::CPlayScene(int id, LPCWSTR filePath):
@@ -128,7 +128,14 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 
 	case OBJECT_TYPE_BROWN_GOOMBA: obj = new CBrownGoomba(x,y); break;
 	case OBJECT_TYPE_RED_GOOMBA: obj = new CRedGoomba(x, y); break;
-	case OBJECT_TYPE_PIPE: obj = new CPipe(x, y); break;
+	case OBJECT_TYPE_PIPE:
+	{
+		float width = (float)atof(tokens[3].c_str());
+		float height = (float)atof(tokens[4].c_str());
+		int spriteId = atoi(tokens[5].c_str());
+		int typeContent = atoi(tokens[6].c_str());
+		obj = new CPipe(x, y, width, height, spriteId, typeContent); break;
+	}
 	case OBJECT_TYPE_BRICK: obj = new CBrick(x,y); break;
 	case OBJECT_TYPE_COIN: obj = new CCoin(x, y); break;
 
@@ -159,6 +166,12 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		obj = new CCard(x, y, width, height, spriteId);
 		break;
 	}
+	case OBJECT_TYPE_SCENEOBJECT:
+	{
+		int spriteId = atoi(tokens[3].c_str());
+		obj = new CSceneObject(x, y,spriteId);
+		break;
+	}
 	case OBJECT_TYPE_PORTAL:
 	{
 		float r = (float)atof(tokens[3].c_str());
@@ -167,8 +180,14 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		obj = new CPortal(x, y, r, b, scene_id);
 	}
 	break;
-	case OBJECT_TYPE_KOOPA: obj = new CKoopa(x, y); break;
-
+	case OBJECT_TYPE_KOOPA:
+	{
+		float patrolDistance = (float)atof(tokens[3].c_str());
+		int state = atoi(tokens[4].c_str());
+		int type = atoi(tokens[5].c_str());
+		obj = new CKoopa(x, y, patrolDistance, state, type);
+		break;
+	}
 	default:
 		DebugOut(L"[ERROR] Invalid object type: %d\n", object_type);
 		return;

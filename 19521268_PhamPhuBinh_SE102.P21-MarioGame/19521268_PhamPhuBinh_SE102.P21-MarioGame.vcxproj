@@ -156,6 +156,7 @@
     <ClCompile Include="QuestionBlock.cpp" />
     <ClCompile Include="RedGoomba.cpp" />
     <ClCompile Include="SampleKeyEventHandler.cpp" />
+    <ClCompile Include="SceneObject.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="Sprites.cpp" />
     <ClCompile Include="Textures.cpp" />
@@ -188,6 +189,7 @@
     <ClInclude Include="RedGoomba.h" />
     <ClInclude Include="SampleKeyEventHandler.h" />
     <ClInclude Include="Scene.h" />
+    <ClInclude Include="SceneObject.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="Sprites.h" />
     <ClInclude Include="Texture.h" />
@@ -213,6 +215,7 @@
     <Text Include="scene0005.txt" />
     <Text Include="scene01.txt" />
     <Text Include="scene02.txt" />
+    <Text Include="sceneobject.txt" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="mario.ico" />

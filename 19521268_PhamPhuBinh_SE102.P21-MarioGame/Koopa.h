@@ -58,6 +58,6 @@ protected:
 	void OnCollisionWithKoopa(LPCOLLISIONEVENT e);
 
 public:
-	CKoopa(float x, float y, float patrolDistance = 20, int state = KOOPA_STATE_WALKING_LEFT, int type = KOOPA_TYPE_RED);
+	CKoopa(float x, float y, float patrolDistance, int state, int type);
 	virtual void SetState(int state);
 };

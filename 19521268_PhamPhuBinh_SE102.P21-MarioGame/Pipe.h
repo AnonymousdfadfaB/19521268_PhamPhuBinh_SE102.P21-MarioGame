@@ -28,7 +28,7 @@ class CPipe : public CGameObject {
 	int typeContent;
 	CGameObject* content;
 public:
-	CPipe(float x, float y, float width = 31, float height = 31, int spriteId = 11001, int typeContent = PIPE_CONTENT_FIRE_RED_PLANT) : CGameObject(x, y)
+	CPipe(float x, float y, float width, float height, int spriteId, int typeContent) : CGameObject(x, y)
 	{
 		this->width = width;
 		this->height = height;

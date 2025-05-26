@@ -7,6 +7,7 @@
 #include "Mario.h"
 #include "BrownGoomba.h"
 #include "RedGoomba.h"
+#include "SceneObject.h"
 //#include "Koopas.h"
 
 

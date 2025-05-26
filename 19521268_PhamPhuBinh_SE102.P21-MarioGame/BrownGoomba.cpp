@@ -3,7 +3,6 @@
 
 CBrownGoomba::CBrownGoomba(float x, float y) :CGameObject(x, y)
 {
-
 	die_start = -1;
 	SetState(BROWN_GOOMBA_STATE_WALKING_LEFT);
 }
@@ -85,7 +84,6 @@ void CBrownGoomba::Render()
 	}
 
 	CAnimations::GetInstance()->Get(aniId)->Render(x, y);
-	RenderBoundingBox();
 }
 
 
