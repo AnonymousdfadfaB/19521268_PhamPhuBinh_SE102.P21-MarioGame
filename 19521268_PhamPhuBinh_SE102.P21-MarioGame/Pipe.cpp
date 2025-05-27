@@ -4,7 +4,6 @@ void CPipe::Render()
 {
 	CSprites* sprites = CSprites::GetInstance();
 	sprites->Get(spriteId)->Draw(x, y);
-	//RenderBoundingBox();
 }
 
 void CPipe::GetBoundingBox(float& l, float& t, float& r, float& b)

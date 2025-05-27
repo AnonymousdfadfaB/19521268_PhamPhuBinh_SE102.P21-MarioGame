@@ -23,7 +23,7 @@ protected:
 	int contentType;
 	LPGAMEOBJECT content;
 public:
-	CQuestionBlock(float x, float y, int contentType = RED_MUSHROOM_OR_LEAF, bool hit = FALSE) : CGameObject(x, y) {
+	CQuestionBlock(float x, float y, int contentType, bool hit = FALSE) : CGameObject(x, y) {
 		this->hit = hit;
 		this->contentType = contentType;
 		this->content = NULL;

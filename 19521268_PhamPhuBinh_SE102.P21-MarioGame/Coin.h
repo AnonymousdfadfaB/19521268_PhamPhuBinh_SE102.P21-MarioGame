@@ -5,7 +5,7 @@
 #include "Animations.h"
 
 #define ACCEL_GRAVITY 0.002f
-#define COIN_VERTICLE_VELOCITY -0.5f
+#define COIN_VERTICLE_SPEED 0.5f
 #define ID_ANI_COIN 11000
 
 #define	COIN_WIDTH 10
@@ -22,7 +22,7 @@ public:
 	{ 
 		this->type = type;
 		if (type == BOUNCE_COIN)
-			this->vy = -COIN_VERTICLE_VELOCITY;
+			this->vy = -COIN_VERTICLE_SPEED;
 	}
 	void Render();
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects = NULL);

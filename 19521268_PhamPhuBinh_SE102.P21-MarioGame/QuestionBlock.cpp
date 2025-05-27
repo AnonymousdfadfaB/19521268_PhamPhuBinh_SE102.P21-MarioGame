@@ -23,7 +23,7 @@ void CQuestionBlock::Render()
 	//RenderBoundingBox();
 }
 void CQuestionBlock::GenerateCoin() {
-	content = new CCoin(x, y, BOUNCE_COIN);
+	content = new CCoin(x, y,BOUNCE_COIN);
 	dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->AddObject(content);
 }
 void CQuestionBlock::GenerateRedMushroom() {

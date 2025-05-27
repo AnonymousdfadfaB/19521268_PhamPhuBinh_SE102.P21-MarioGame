@@ -9,6 +9,7 @@
 #include "RedGoomba.h"
 #include "SceneObject.h"
 #include  "WoodBlock.h"
+#include "Cloud.h"
 //#include "Koopas.h"
 
 
