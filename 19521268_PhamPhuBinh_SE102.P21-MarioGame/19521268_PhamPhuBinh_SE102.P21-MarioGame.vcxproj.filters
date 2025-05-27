@@ -111,6 +111,9 @@
     <ClCompile Include="SceneObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="WoodBlock.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h">
@@ -209,6 +212,9 @@
     <ClInclude Include="SceneObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="woodBlock.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="brick.txt" />
@@ -230,6 +236,7 @@
     <Text Include="fireball.txt" />
     <Text Include="card.txt" />
     <Text Include="sceneobject.txt" />
+    <Text Include="woodblock.txt" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="mario.ico">

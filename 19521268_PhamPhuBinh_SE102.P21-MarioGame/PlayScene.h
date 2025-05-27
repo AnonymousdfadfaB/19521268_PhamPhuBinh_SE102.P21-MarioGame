@@ -8,6 +8,7 @@
 #include "BrownGoomba.h"
 #include "RedGoomba.h"
 #include "SceneObject.h"
+#include  "WoodBlock.h"
 //#include "Koopas.h"
 
 

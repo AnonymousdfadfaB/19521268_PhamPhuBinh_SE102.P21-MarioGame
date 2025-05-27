@@ -20,8 +20,9 @@ protected:
 public:
 	CCoin(float x, float y, int type = NORMAL_COIN) : CGameObject(x, y) 
 	{ 
-		this->type = type; 
-		this->vy = COIN_VERTICLE_VELOCITY;
+		this->type = type;
+		if (type == BOUNCE_COIN)
+			this->vy = -COIN_VERTICLE_VELOCITY;
 	}
 	void Render();
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects = NULL);
