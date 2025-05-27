@@ -162,6 +162,7 @@
     <ClCompile Include="Sprites.cpp" />
     <ClCompile Include="Textures.cpp" />
     <ClCompile Include="Utils.cpp" />
+    <ClCompile Include="VictoryFlower.cpp" />
     <ClCompile Include="WoodBlock.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -198,6 +199,7 @@
     <ClInclude Include="Texture.h" />
     <ClInclude Include="Textures.h" />
     <ClInclude Include="Utils.h" />
+    <ClInclude Include="VictoryFlower.h" />
     <ClInclude Include="woodBlock.h" />
   </ItemGroup>
   <ItemGroup>
@@ -220,6 +222,7 @@
     <Text Include="scene01.txt" />
     <Text Include="scene02.txt" />
     <Text Include="sceneobject.txt" />
+    <Text Include="victoryflower.txt" />
     <Text Include="woodblock.txt" />
   </ItemGroup>
   <ItemGroup>
@@ -230,6 +233,7 @@
     <Image Include="textures\mario.png" />
     <Image Include="textures\misc.png" />
     <Image Include="textures\misc2.png" />
+    <Image Include="textures\misc3.png" />
     <Image Include="textures\misc_scene.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

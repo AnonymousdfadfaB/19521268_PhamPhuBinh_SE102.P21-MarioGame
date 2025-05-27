@@ -16,6 +16,7 @@ fireball.txt
 card.txt
 sceneobject.txt
 woodblock.txt
+victoryflower.txt
 #
 [OBJECTS]
 # type	x	y	extra_settings per object type
@@ -190,6 +191,8 @@ woodblock.txt
 14	1651	166
 14	1667	166
 14	1683	166
+#Victory Flower
+15	2893	344
 
 
 

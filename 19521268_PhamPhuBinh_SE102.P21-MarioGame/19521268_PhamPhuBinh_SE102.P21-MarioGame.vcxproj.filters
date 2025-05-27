@@ -117,6 +117,9 @@
     <ClCompile Include="Cloud.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="VictoryFlower.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h">
@@ -221,6 +224,9 @@
     <ClInclude Include="Cloud.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="VictoryFlower.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="brick.txt" />
@@ -243,6 +249,7 @@
     <Text Include="card.txt" />
     <Text Include="sceneobject.txt" />
     <Text Include="woodblock.txt" />
+    <Text Include="victoryflower.txt" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="mario.ico">
@@ -267,6 +274,9 @@
       <Filter>textures</Filter>
     </Image>
     <Image Include="textures\misc2.png">
+      <Filter>textures</Filter>
+    </Image>
+    <Image Include="textures\misc3.png">
       <Filter>textures</Filter>
     </Image>
   </ItemGroup>
