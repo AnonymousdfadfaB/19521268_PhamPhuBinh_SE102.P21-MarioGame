@@ -9,6 +9,7 @@
 #define HIDE_DURATION 2000.0f
 #define ATTACK_DURATION 2000.0f
 #define NO_FIRE_GREEN_PLANT_VERTICAL_SPEED 0.05f
+#define DIE_DURATION 300.0f
 //width and height
 #define NO_FIRE_GREEN_PLANT_WIDTH 16
 #define NO_FIRE_GREEN_PLANT_HEIGHT 24
@@ -37,6 +38,8 @@
 #define FIRE_RED_PLANT_LEFT_BOTTOM_ANI_ID 86003
 #define FIRE_RED_PLANT_RIGHT_BOTTOM_ANI_ID 86004
 
+#define DIE_EFFECT 86005
+
 //type
 #define NO_FIRE_GREEN_PLANT 1
 #define FIRE_GREEN_PLANT 2
@@ -57,6 +60,7 @@ protected:
 	bool alreadyFire;
 	ULONGLONG hide_start;
 	ULONGLONG attack_start;
+	ULONGLONG die_start;
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	virtual void Render();

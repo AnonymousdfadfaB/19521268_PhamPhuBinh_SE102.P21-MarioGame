@@ -12,6 +12,7 @@
 #include "Mushroom.h"
 #include "Leaf.h"
 #include "Koopa.h"
+#include "PlantEnemy.h"
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
@@ -109,6 +110,8 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithKoopa(e);
 	else if (dynamic_cast<CRedGoomba*>(e->obj))
 		OnCollisionWithRedGoomba(e);
+	else if (dynamic_cast<CPlantEnemy*>(e->obj))
+		OnCollisionWithPlantEnemy(e);
 }
 
 void CMario::OnCollisionWithBrownGoomba(LPCOLLISIONEVENT e)
@@ -139,6 +142,20 @@ void CMario::OnCollisionWithBrownGoomba(LPCOLLISIONEVENT e)
 				MarioIsHit();
 			}
 	}
+}
+void CMario::OnCollisionWithPlantEnemy(LPCOLLISIONEVENT e)
+{
+	CPlantEnemy* plantEnemy = dynamic_cast<CPlantEnemy*>(e->obj);
+	int plantEnemyState = plantEnemy->GetState();
+	if (plantEnemyState == DIE_STATE)
+		return;
+	if (isAttackingLeft || isAttackingRight)
+	{
+		plantEnemy->SetState(DIE_STATE);
+		return;
+	}
+	else
+		MarioIsHit();
 }
 void CMario::OnCollisionWithRedGoomba(LPCOLLISIONEVENT e)
 {

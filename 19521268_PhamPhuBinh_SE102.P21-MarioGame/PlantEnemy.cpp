@@ -24,6 +24,7 @@ CPlantEnemy::CPlantEnemy(float x, float y, int type, CGameObject* pipe):CGameObj
 	}
 	hide_start = -1;
 	attack_start = -1;
+	die_start = -1;
 	alreadyFire = false;
 	this->pipe = pipe;
 	SetState(HIDE_STATE);
@@ -49,6 +50,7 @@ void CPlantEnemy::SetState(int state)
 		vy = NO_FIRE_GREEN_PLANT_VERTICAL_SPEED;
 		break;
 	case DIE_STATE:
+		die_start = GetTickCount64();
 		vy = 0;
 		break;
 	}
@@ -56,7 +58,7 @@ void CPlantEnemy::SetState(int state)
 }
 void CPlantEnemy::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-	if (state == DIE_STATE)
+	if (state == DIE_STATE && GetTickCount64() - die_start > DIE_DURATION)
 	{
 		isDeleted = true;
 		return;
@@ -141,6 +143,12 @@ void CPlantEnemy::GetBoundingBox(float& left, float& top, float& right, float& b
 void CPlantEnemy::Render()
 {
 	int aniId;
+	if (state == DIE_STATE)
+	{
+		aniId = DIE_EFFECT;
+		CAnimations::GetInstance()->Get(aniId)->Render(x, y);
+		return;
+	}
 	switch (type)
 	{
 	case NO_FIRE_GREEN_PLANT:
