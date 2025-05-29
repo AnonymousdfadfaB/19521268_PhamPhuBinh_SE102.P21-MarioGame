@@ -107,6 +107,8 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithLeaf(e);
 	else if (dynamic_cast<CKoopa*>(e->obj))
 		OnCollisionWithKoopa(e);
+	else if (dynamic_cast<CRedGoomba*>(e->obj))
+		OnCollisionWithRedGoomba(e);
 }
 
 void CMario::OnCollisionWithBrownGoomba(LPCOLLISIONEVENT e)
@@ -121,120 +123,6 @@ void CMario::OnCollisionWithBrownGoomba(LPCOLLISIONEVENT e)
 		}
 		return;
 	}
-	/*
-	if (isAttackingLeft)
-	{
-		ULONGLONG now = GetTickCount64();
-		if (now - attack_start <= 100) //time for attack left
-		{
-			if (e->nx < 0)
-			{
-				if (goomba->GetState() != GOOMBA_STATE_DIE)
-				{
-					goomba->SetState(GOOMBA_STATE_DIE);
-				}
-			}
-			else
-			{
-				if (!untouchable)
-				{
-					MarioIsHit();
-				}
-			}
-		}
-		else if (now - attack_start > 200 || now - attack_start <= 300)
-		{
-			if (e->nx > 0)
-			{
-				if (goomba->GetState() != GOOMBA_STATE_DIE)
-				{
-					goomba->SetState(GOOMBA_STATE_DIE);
-				}
-			}
-			else
-			{
-				if (!untouchable)
-				{
-					MarioIsHit();
-				}
-			}
-		}
-		else if (now - attack_start > 400 || now - attack_start <= 500)
-		{
-			if (e->nx > 0)
-			{
-				if (goomba->GetState() != GOOMBA_STATE_DIE)
-				{
-					goomba->SetState(GOOMBA_STATE_DIE);
-				}
-			}
-			else
-			{
-				if (!untouchable)
-				{
-					MarioIsHit();
-				}
-			}
-		}
-		return;
-	}
-	else if (isAttackingRight)
-	{
-		ULONGLONG now = GetTickCount64();
-		if (now - attack_start <= 100) //time for attack left
-		{
-			if (e->nx > 0)
-			{
-				if (goomba->GetState() != GOOMBA_STATE_DIE)
-				{
-					goomba->SetState(GOOMBA_STATE_DIE);
-				}
-			}
-			else
-			{
-				if (!untouchable)
-				{
-					MarioIsHit();
-				}
-			}
-		}
-		else if (now - attack_start > 200 || now - attack_start <= 300)
-		{
-			if (e->nx < 0)
-			{
-				if (goomba->GetState() != GOOMBA_STATE_DIE)
-				{
-					goomba->SetState(GOOMBA_STATE_DIE);
-				}
-			}
-			else
-			{
-				if (!untouchable)
-				{
-					MarioIsHit();
-				}
-			}
-		}
-		else if (now - attack_start > 400 || now - attack_start <= 500)
-		{
-			if (e->nx < 0)
-			{
-				if (goomba->GetState() != GOOMBA_STATE_DIE)
-				{
-					goomba->SetState(GOOMBA_STATE_DIE);
-				}
-			}
-			else
-			{
-				if (!untouchable)
-				{
-					MarioIsHit();
-				}
-			}
-		}
-		return;
-	}
-	*/
 	// jump on top >> kill Goomba and deflect a bit 
 	if (e->ny < 0)
 	{
@@ -252,7 +140,45 @@ void CMario::OnCollisionWithBrownGoomba(LPCOLLISIONEVENT e)
 			}
 	}
 }
-
+void CMario::OnCollisionWithRedGoomba(LPCOLLISIONEVENT e)
+{
+	CRedGoomba* redGoomba = dynamic_cast<CRedGoomba*>(e->obj);
+	int redGoombaState = redGoomba->GetState();
+	int redGoombaLevel = redGoomba->GetLevel();
+	if (redGoombaState == RED_GOOMBA_STATE_DIE)
+		return;
+	if (isAttackingLeft || isAttackingRight)
+	{
+		redGoomba->SetState(BROWN_GOOMBA_STATE_DIE);
+		return;
+	}
+	// jump on top >> kill Goomba and deflect a bit 
+	if (e->ny < 0)
+	{
+		if (redGoombaLevel == RED_GOOMBA_LEVEL_WINGED)
+		{
+			redGoomba->SetLevel(RED_GOOMBA_LEVEL_WINGLESS);
+			if (redGoomba->GetXDirection() > 0)
+			{
+				redGoomba->SetState(RED_GOOMBA_STATE_WALKING_RIGHT);
+				vy = -MARIO_JUMP_DEFLECT_SPEED;
+			}
+			else
+			{
+				redGoomba->SetState(RED_GOOMBA_STATE_WALKING_LEFT);
+				vy = -MARIO_JUMP_DEFLECT_SPEED;
+			}
+		}
+		else
+		{
+			redGoomba->SetState(RED_GOOMBA_STATE_DIE);
+		}
+	}
+	else // hit by Goomba
+	{
+		MarioIsHit();
+	}
+}
 void CMario::OnCollisionWithCoin(LPCOLLISIONEVENT e)
 {
 	e->obj->Delete();
@@ -303,113 +229,14 @@ void CMario::OnCollisionWithMushroom(LPCOLLISIONEVENT e)
 void CMario::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 {
 	CKoopa* koopa = dynamic_cast<CKoopa*>(e->obj);
+	int koopaState = koopa->GetState();
+	if (koopaState == KOOPA_STATE_DIE) return;
 	if (isAttackingLeft || isAttackingRight)
 	{
-		if (koopa->GetState() != KOOPA_STATE_DIE)
-		{
-			koopa->Delete();
-		}
+		koopa->SetState(KOOPA_STATE_DIE);
 		return;
 	}
-	/*
-	if (isAttackingLeft)
-	{
-		ULONGLONG now = GetTickCount64();
-		if (now - attack_start <= 100) //time for attack left
-		{
-			if (e->nx < 0)
-			{
-				koopa->Delete();
-			}
-			else
-			{
-				if (!untouchable)
-				{
-					MarioIsHit();
-				}
-			}
-		}
-		else if (now - attack_start > 200 || now - attack_start <= 300)
-		{
-			if (e->nx > 0)
-			{
-				koopa->Delete();
-			}
-			else
-			{
-				if (!untouchable)
-				{
-					MarioIsHit();
-				}
-
-			}
-		}
-		else if (now - attack_start > 400 || now - attack_start <= 500)
-		{
-			if (e->nx > 0)
-			{
-				koopa->Delete();
-			}
-			else
-			{
-				if (!untouchable)
-				{
-					MarioIsHit();
-				}
-			}
-		}
-		return;
-	}
-	else if (isAttackingRight)
-	{
-		ULONGLONG now = GetTickCount64();
-		if (now - attack_start <= 100) //time for attack left
-		{
-			if (e->nx > 0)
-			{
-				koopa->Delete();
-			}
-			else
-			{
-				if (!untouchable)
-				{
-					MarioIsHit();
-				}
-			}
-		}
-		else if (now - attack_start > 200 || now - attack_start <= 300)
-		{
-			if (e->nx < 0)
-			{
-				koopa->Delete();
-			}
-			else
-			{
-				if (!untouchable)
-				{
-					MarioIsHit();
-				}
-			}
-		}
-		else if (now - attack_start > 400 || now - attack_start <= 500)
-		{
-			if (e->nx < 0)
-			{
-				koopa->Delete();
-			}
-			else
-			{
-				if (!untouchable)
-				{
-					MarioIsHit();
-				}
-			}
-		}
-		return;
-	}
-	*/
 	// jump on top >> kill Goomba and deflect a bit 
-	int koopaState = koopa->GetState();
 
 	if (e->nx != 0)
 	{
@@ -460,6 +287,14 @@ void CMario::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 			koopa->SetState(KOOPA_STATE_SHELL);
 			vy = -MARIO_JUMP_DEFLECT_SPEED;
 			break;
+		case KOOPA_STATE_JUMP_LEFT:
+			koopa->SetState(KOOPA_STATE_WALKING_LEFT);
+			vy = -MARIO_JUMP_DEFLECT_SPEED;
+			break;
+		case KOOPA_STATE_JUMP_RIGHT:
+			koopa->SetState(KOOPA_STATE_WALKING_RIGHT);
+			vy = -MARIO_JUMP_DEFLECT_SPEED;
+			break;
 		}
 	}
 	else
@@ -470,6 +305,8 @@ void CMario::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 		case KOOPA_STATE_WALKING_RIGHT:
 		case KOOPA_STATE_SHELL_SLIDING_LEFT:
 		case KOOPA_STATE_SHELL_SLIDING_RIGHT:
+		case KOOPA_STATE_JUMP_LEFT:
+		case KOOPA_STATE_JUMP_RIGHT:
 			MarioIsHit();
 			break;
 		case KOOPA_STATE_SHELL:

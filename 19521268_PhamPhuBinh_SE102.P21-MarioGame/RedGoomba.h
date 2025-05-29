@@ -50,5 +50,7 @@ protected:
 public:
 	CRedGoomba(float x, float y);
 	virtual void SetState(int state);
-
+	int GetLevel() { return level; }
+	void SetLevel(int level) { this->level = level; }
+	int GetXDirection() { return nx; }
 }; 

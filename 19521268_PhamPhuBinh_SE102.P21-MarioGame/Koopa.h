@@ -28,12 +28,19 @@
 #define KOOPA_STATE_JUMP_RIGHT 210
 #define KOOPA_STATE_DIE 220
 
-#define ID_ANI_KOOPA_SHELL 60100
-#define ID_ANI_KOOPA_WALKING_RIGHT 60101
-#define ID_ANI_KOOPA_WALKING_LEFT 60102
-#define ID_ANI_KOOPA_JUMP_RIGHT 60103
-#define ID_ANI_KOOPA_JUMP_LEFT 60104
-#define ID_ANI_KOOPA_DIE 60105
+#define ID_ANI_RED_KOOPA_SHELL 60100
+#define ID_ANI_RED_KOOPA_WALKING_RIGHT 60101
+#define ID_ANI_RED_KOOPA_WALKING_LEFT 60102
+#define ID_ANI_RED_KOOPA_JUMP_RIGHT 60103
+#define ID_ANI_RED_KOOPA_JUMP_LEFT 60104
+#define ID_ANI_RED_KOOPA_DIE 60105
+
+#define ID_ANI_GREEN_KOOPA_SHELL 70100
+#define ID_ANI_GREEN_KOOPA_WALKING_RIGHT 70101
+#define ID_ANI_GREEN_KOOPA_WALKING_LEFT 70102
+#define ID_ANI_GREEN_KOOPA_JUMP_RIGHT 70103
+#define ID_ANI_GREEN_KOOPA_JUMP_LEFT 70104
+#define ID_ANI_GREEN_KOOPA_DIE 70105
 
 class CKoopa : public CGameObject
 {
@@ -56,7 +63,8 @@ protected:
 	void OnCollisionWithBrownGoomba(LPCOLLISIONEVENT e);
 	void OnCollisionWithQuestionBlock(LPCOLLISIONEVENT e);
 	void OnCollisionWithKoopa(LPCOLLISIONEVENT e);
-
+	int GetAniIdRedKoopa();
+	int GetAniIdGreenKoopa();
 public:
 	CKoopa(float x, float y, float patrolDistance, int state, int type);
 	virtual void SetState(int state);

@@ -169,38 +169,10 @@ void CKoopa::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 void CKoopa::Render()
 {
 	int aniId;
-	if (state == KOOPA_STATE_WALKING_LEFT)
-	{
-		aniId = ID_ANI_KOOPA_WALKING_LEFT;
-	}
-	else if (state == KOOPA_STATE_WALKING_RIGHT)
-	{
-		aniId = ID_ANI_KOOPA_WALKING_RIGHT;
-	}
-	else if (state == KOOPA_STATE_SHELL)
-	{
-		aniId = ID_ANI_KOOPA_SHELL;
-	}
-	else if (state == KOOPA_STATE_SHELL_SLIDING_LEFT)
-	{
-		aniId = ID_ANI_KOOPA_SHELL;
-	}
-	else if (state == KOOPA_STATE_SHELL_SLIDING_RIGHT)
-	{
-		aniId = ID_ANI_KOOPA_SHELL;
-	}
-	else if (state == KOOPA_STATE_JUMP_LEFT)
-	{
-		aniId = ID_ANI_KOOPA_JUMP_LEFT;
-	}
-	else if (state == KOOPA_STATE_JUMP_RIGHT)
-	{
-		aniId = ID_ANI_KOOPA_JUMP_RIGHT;
-	}
-	else if (state == KOOPA_STATE_DIE)
-	{
-		aniId = ID_ANI_KOOPA_DIE;
-	}
+	if (type == KOOPA_TYPE_RED)
+		aniId = GetAniIdRedKoopa();
+	else
+		aniId = GetAniIdGreenKoopa();
 	CAnimations::GetInstance()->Get(aniId)->Render(x, y);
 }
 
@@ -254,4 +226,78 @@ void CKoopa::SetState(int state)
 		break;
 	}
 	this->state = state;
+}
+int CKoopa::GetAniIdRedKoopa()
+{
+	int aniId;
+	if (state == KOOPA_STATE_WALKING_LEFT)
+	{
+		aniId = ID_ANI_RED_KOOPA_WALKING_LEFT;
+	}
+	else if (state == KOOPA_STATE_WALKING_RIGHT)
+	{
+		aniId = ID_ANI_RED_KOOPA_WALKING_RIGHT;
+	}
+	else if (state == KOOPA_STATE_SHELL)
+	{
+		aniId = ID_ANI_RED_KOOPA_SHELL;
+	}
+	else if (state == KOOPA_STATE_SHELL_SLIDING_LEFT)
+	{
+		aniId = ID_ANI_RED_KOOPA_SHELL;
+	}
+	else if (state == KOOPA_STATE_SHELL_SLIDING_RIGHT)
+	{
+		aniId = ID_ANI_RED_KOOPA_SHELL;
+	}
+	else if (state == KOOPA_STATE_JUMP_LEFT)
+	{
+		aniId = ID_ANI_RED_KOOPA_JUMP_LEFT;
+	}
+	else if (state == KOOPA_STATE_JUMP_RIGHT)
+	{
+		aniId = ID_ANI_RED_KOOPA_JUMP_RIGHT;
+	}
+	else if (state == KOOPA_STATE_DIE)
+	{
+		aniId = ID_ANI_RED_KOOPA_DIE;
+	}
+	return aniId;
+}
+int CKoopa::GetAniIdGreenKoopa()
+{
+	int aniId;
+	if (state == KOOPA_STATE_WALKING_LEFT)
+	{
+		aniId = ID_ANI_GREEN_KOOPA_WALKING_LEFT;
+	}
+	else if (state == KOOPA_STATE_WALKING_RIGHT)
+	{
+		aniId = ID_ANI_GREEN_KOOPA_WALKING_RIGHT;
+	}
+	else if (state == KOOPA_STATE_SHELL)
+	{
+		aniId = ID_ANI_GREEN_KOOPA_SHELL;
+	}
+	else if (state == KOOPA_STATE_SHELL_SLIDING_LEFT)
+	{
+		aniId = ID_ANI_GREEN_KOOPA_SHELL;
+	}
+	else if (state == KOOPA_STATE_SHELL_SLIDING_RIGHT)
+	{
+		aniId = ID_ANI_GREEN_KOOPA_SHELL;
+	}
+	else if (state == KOOPA_STATE_JUMP_LEFT)
+	{
+		aniId = ID_ANI_GREEN_KOOPA_JUMP_LEFT;
+	}
+	else if (state == KOOPA_STATE_JUMP_RIGHT)
+	{
+		aniId = ID_ANI_GREEN_KOOPA_JUMP_RIGHT;
+	}
+	else if (state == KOOPA_STATE_DIE)
+	{
+		aniId = ID_ANI_GREEN_KOOPA_DIE;
+	}
+	return aniId;
 }
