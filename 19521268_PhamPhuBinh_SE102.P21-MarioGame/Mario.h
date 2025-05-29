@@ -266,7 +266,7 @@ public:
 				level = MARIO_LEVEL_BIG;
 				StartUntouchable();
 			}
-			if (level == MARIO_LEVEL_BIG)
+			else if (level == MARIO_LEVEL_BIG)
 			{
 				level = MARIO_LEVEL_SMALL;
 				StartUntouchable();
