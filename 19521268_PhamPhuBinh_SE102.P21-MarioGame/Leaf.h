@@ -13,7 +13,7 @@
 #define LEAF_AMPLITUDE 25
 #define LEAF_BBOX_WIDTH 16
 #define LEAF_BBOX_HEIGHT 16
-#define LEAF_SPRITE_ID 70001
+#define LEAF_SPRITE_ID 80001
 
 class CLeaf : public CGameObject {
 protected:
