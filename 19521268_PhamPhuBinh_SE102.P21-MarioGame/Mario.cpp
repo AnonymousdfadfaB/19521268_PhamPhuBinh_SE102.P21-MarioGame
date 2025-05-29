@@ -13,7 +13,7 @@
 #include "Leaf.h"
 #include "Koopa.h"
 #include "PlantEnemy.h"
-
+#include "VictoryFlower.h"
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
 	vy += ay * dt;
@@ -114,6 +114,8 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithPlantEnemy(e);
 	else if (dynamic_cast<CFireball*>(e->obj))
 		OnCollisionWithFireBall(e);
+	else if (dynamic_cast<CVictoryFlower*>(e->obj))
+		OnCollisionWithVictoryFlower(e);
 }
 
 void CMario::OnCollisionWithBrownGoomba(LPCOLLISIONEVENT e)
@@ -162,6 +164,11 @@ void CMario::OnCollisionWithPlantEnemy(LPCOLLISIONEVENT e)
 void CMario::OnCollisionWithFireBall(LPCOLLISIONEVENT e)
 {
 		MarioIsHit();
+}
+void CMario::OnCollisionWithVictoryFlower(LPCOLLISIONEVENT e)
+{
+	CVictoryFlower* victoryFlower = dynamic_cast<CVictoryFlower*>(e->obj);
+	victoryFlower->Fly();
 }
 void CMario::OnCollisionWithRedGoomba(LPCOLLISIONEVENT e)
 {

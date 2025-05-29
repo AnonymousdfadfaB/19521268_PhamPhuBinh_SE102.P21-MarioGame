@@ -3,7 +3,7 @@
 
 void CVictoryFlower::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-	if (alreadyHit)
+	if (isFlying)
 	{
 		y += vy * dt;
 	}

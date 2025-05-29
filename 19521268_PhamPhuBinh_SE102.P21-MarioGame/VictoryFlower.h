@@ -4,7 +4,7 @@
 #include "Animation.h"
 #include "Animations.h"
 
-#define VICTORYFLOWER_VERTICLE_SPEED 0.5f
+#define VICTORYFLOWER_VERTICLE_SPEED 0.1f
 #define VICTORYFLOWER_ANI_ID 20001
 
 #define VICTORYFLOWER_WIDTH 16
@@ -13,19 +13,19 @@
 
 class CVictoryFlower : public CGameObject {
 protected:
-	bool alreadyHit;
+	bool isFlying;
 public:
 	CVictoryFlower(float x, float y) : CGameObject(x, y)
 	{
-		alreadyHit = false;
+		isFlying = false;
 	}
 	void Render();
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects = NULL);
 	void GetBoundingBox(float& l, float& t, float& r, float& b);
 	int IsBlocking() { return 1; }
-	void BeingHit()
+	void Fly()
 	{
-			alreadyHit = true;
+			isFlying = true;
 			this->vy = -VICTORYFLOWER_VERTICLE_SPEED;
 	}
 };
