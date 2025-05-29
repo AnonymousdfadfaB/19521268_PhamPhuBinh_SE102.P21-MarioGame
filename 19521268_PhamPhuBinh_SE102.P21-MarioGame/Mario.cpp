@@ -112,7 +112,7 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithRedGoomba(e);
 	else if (dynamic_cast<CPlantEnemy*>(e->obj))
 		OnCollisionWithPlantEnemy(e);
-	else if (dynamic_cast<CPlantEnemy*>(e->obj))
+	else if (dynamic_cast<CFireball*>(e->obj))
 		OnCollisionWithFireBall(e);
 }
 
