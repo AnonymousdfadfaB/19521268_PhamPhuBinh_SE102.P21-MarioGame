@@ -112,6 +112,8 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithRedGoomba(e);
 	else if (dynamic_cast<CPlantEnemy*>(e->obj))
 		OnCollisionWithPlantEnemy(e);
+	else if (dynamic_cast<CPlantEnemy*>(e->obj))
+		OnCollisionWithFireBall(e);
 }
 
 void CMario::OnCollisionWithBrownGoomba(LPCOLLISIONEVENT e)
@@ -155,6 +157,10 @@ void CMario::OnCollisionWithPlantEnemy(LPCOLLISIONEVENT e)
 		return;
 	}
 	else
+		MarioIsHit();
+}
+void CMario::OnCollisionWithFireBall(LPCOLLISIONEVENT e)
+{
 		MarioIsHit();
 }
 void CMario::OnCollisionWithRedGoomba(LPCOLLISIONEVENT e)
