@@ -26,25 +26,6 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		untouchable = 0;
 	}
 	// reset untouchable timer if untouchable time has passed
-	
-	if (isHoldingShell)
-	{
-		auto it = std::find(coObjects->begin(), coObjects->end(), shell);
-		if (it != coObjects->end())
-		{
-			coObjects->erase(it);
-		}
-		CCollision::GetInstance()->Process(this, dt, coObjects);
-	} 
-	else
-	{
-		CCollision::GetInstance()->Process(this, dt, coObjects);
-	}
-	
-	//CCollision::GetInstance()->Process(this, dt, coObjects);
-	UpdateShell(dt);
-	//reset action of mario if sactifies
-
 	if (isHoldingShell)
 	{
 		if (shell->GetState() != KOOPA_STATE_SHELL)
@@ -53,6 +34,24 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			shell = NULL;
 		}
 	}
+	if (isHoldingShell)
+	{
+		auto it = std::find(coObjects->begin(), coObjects->end(), shell);
+		if (it != coObjects->end())
+		{
+			coObjects->erase(it);
+		}
+		CCollision::GetInstance()->Process(this, dt, coObjects);
+		MoveShell(dt);
+	} 
+	else
+	{
+		CCollision::GetInstance()->Process(this, dt, coObjects);
+	}
+	
+	//CCollision::GetInstance()->Process(this, dt, coObjects);
+
+	//reset action of mario if sactifies
 
 	if (isAttackingLeft)
 	{
@@ -77,8 +76,6 @@ void CMario::OnNoCollision(DWORD dt)
 	x += vx * dt;
 	y += vy * dt;
 	isOnPlatform = false;
-	if (isHoldingShell)
-		shell->SetPosition(x + GetWidth(), y + GetHeight());
 }
 
 void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
@@ -274,7 +271,7 @@ void CMario::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 		{
 			isHoldingShell = true;
 			shell = koopa;
-			//koopa->IsHeldByMario();
+			//koopa-HeldByMario();
 		}
 		else if (e->nx > 0 && koopaState == KOOPA_STATE_SHELL)
 		{
@@ -777,15 +774,12 @@ void CMario::SetLevel(int l)
 	}
 	level = l;
 }
-void CMario::UpdateShell(DWORD dt)
+void CMario::MoveShell(DWORD dt)
 {
-	if (isHoldingShell)
-	{
 		if (nx > 0)
-			shell->SetPosition(x + GetWidth() + 2, y - 10); // asasastemporary
+			shell->SetPosition(x + GetWidth() / 2 + KOOPA_BBOX_WIDTH / 2, 110); // y - 10
 		else
-			shell->SetPosition(x - GetWidth() -2, y - 10); //asasastemporary
-	}
+			shell->SetPosition(x - GetWidth() / 2 - KOOPA_BBOX_WIDTH / 2, 110); //
 }
 
 

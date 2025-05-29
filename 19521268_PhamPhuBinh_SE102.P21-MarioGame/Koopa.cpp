@@ -24,16 +24,15 @@ void CKoopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	vy += KOOPA_GRAVITY * dt;
 	ULONGLONG now = GetTickCount64();
-	if (state == KOOPA_STATE_SHELL && now - shell_start > KOOPA_RETURN_WALKING_INTERVAL)
-	{
-		(int)now % 2 == 0 ? SetState(KOOPA_STATE_WALKING_RIGHT) : SetState(KOOPA_STATE_WALKING_LEFT);
-	}
-
 	if (state == KOOPA_STATE_DIE && GetTickCount64() - die_start > KOOPA_DIE_TIMEOUT)
 	{
 		isDeleted = true;
 	}
-	if (state != KOOPA_STATE_SHELL)
+	if (state == KOOPA_STATE_SHELL && now - shell_start > KOOPA_RETURN_WALKING_INTERVAL)
+	{
+		(int)now % 2 == 0 ? SetState(KOOPA_STATE_WALKING_RIGHT) : SetState(KOOPA_STATE_WALKING_LEFT);
+	}
+	if (isHeld == true && state != KOOPA_STATE_SHELL)
 		isHeld = false;
 	if (type == KOOPA_TYPE_RED && (state == KOOPA_STATE_WALKING_LEFT || state == KOOPA_STATE_WALKING_RIGHT))
 	{
@@ -48,7 +47,13 @@ void CKoopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				SetState(KOOPA_STATE_WALKING_LEFT);
 		}
 	}
-	if (state == KOOPA_STATE_DIE)
+	if (isHeld)
+	{
+		vx = 0;
+		vy = 0;
+		nx = 0;
+	} 
+	else if (state == KOOPA_STATE_DIE)
 		OnNoCollision(dt);
 	else
 		CCollision::GetInstance()->Process(this, dt, coObjects);
@@ -73,16 +78,8 @@ void CKoopa::GetBoundingBox(float& left, float& top, float& right, float& bottom
 
 void CKoopa::OnNoCollision(DWORD dt)
 {
-	if (isHeld)
-	{
-
-	}
-	else
-	{
 		x += vx * dt;
 		y += vy * dt;
-	}
-
 };
 
 void CKoopa::OnCollisionWith(LPCOLLISIONEVENT e)
@@ -300,4 +297,8 @@ int CKoopa::GetAniIdGreenKoopa()
 		aniId = ID_ANI_GREEN_KOOPA_DIE;
 	}
 	return aniId;
+}
+void CKoopa::HeldByMario()
+{
+	isHeld = true;
 }

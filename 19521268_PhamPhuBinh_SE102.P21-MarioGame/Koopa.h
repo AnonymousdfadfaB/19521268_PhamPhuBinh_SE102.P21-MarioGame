@@ -68,4 +68,5 @@ protected:
 public:
 	CKoopa(float x, float y, float patrolDistance, int state, int type);
 	virtual void SetState(int state);
+	void HeldByMario();
 };
