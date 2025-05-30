@@ -271,7 +271,7 @@ void CMario::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 		{
 			isHoldingShell = true;
 			shell = koopa;
-			//koopa-HeldByMario();
+			koopa->HeldByMario();
 		}
 		else if (e->nx > 0 && koopaState == KOOPA_STATE_SHELL)
 		{
@@ -777,9 +777,9 @@ void CMario::SetLevel(int l)
 void CMario::MoveShell(DWORD dt)
 {
 		if (nx > 0)
-			shell->SetPosition(x + GetWidth() / 2 + KOOPA_BBOX_WIDTH / 2, 110); // y - 10
+			shell->SetPosition(x + GetWidth() / 2 + KOOPA_BBOX_WIDTH / 2, y - 10); // y - 10
 		else
-			shell->SetPosition(x - GetWidth() / 2 - KOOPA_BBOX_WIDTH / 2, 110); //
+			shell->SetPosition(x - GetWidth() / 2 - KOOPA_BBOX_WIDTH / 2, y - 10); //
 }
 
 
