@@ -17,6 +17,7 @@ card.txt
 sceneobject.txt
 woodblock.txt
 victoryflower.txt
+pieceofbrick.txt
 #
 [OBJECTS]
 # type	x	y	extra_settings per object type

@@ -227,6 +227,9 @@
     <ClInclude Include="VictoryFlower.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="PieceOfBrick.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="brick.txt" />
@@ -250,6 +253,7 @@
     <Text Include="sceneobject.txt" />
     <Text Include="woodblock.txt" />
     <Text Include="victoryflower.txt" />
+    <Text Include="pieceofbrick.txt" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="mario.ico">

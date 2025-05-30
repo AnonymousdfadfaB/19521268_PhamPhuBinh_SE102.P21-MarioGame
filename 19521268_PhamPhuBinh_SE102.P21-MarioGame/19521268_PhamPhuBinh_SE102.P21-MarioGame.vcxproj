@@ -184,6 +184,7 @@
     <ClInclude Include="Leaf.h" />
     <ClInclude Include="Mario.h" />
     <ClInclude Include="Mushroom.h" />
+    <ClInclude Include="PieceOfBrick.h" />
     <ClInclude Include="PlantEnemy.h" />
     <ClInclude Include="Pipe.h" />
     <ClInclude Include="Platform.h" />
@@ -214,6 +215,7 @@
     <Text Include="mario-sample.txt" />
     <Text Include="mario.txt" />
     <Text Include="mushroom.txt" />
+    <Text Include="pieceofbrick.txt" />
     <Text Include="pipe.txt" />
     <Text Include="plant.txt" />
     <Text Include="platform.txt" />

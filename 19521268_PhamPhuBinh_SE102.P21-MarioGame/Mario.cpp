@@ -115,6 +115,8 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithFireBall(e);
 	else if (dynamic_cast<CVictoryFlower*>(e->obj))
 		OnCollisionWithVictoryFlower(e);
+	else if (dynamic_cast<CBrick*>(e->obj))
+		OnCollisionWithBrick(e);
 }
 
 void CMario::OnCollisionWithBrownGoomba(LPCOLLISIONEVENT e)
@@ -144,6 +146,18 @@ void CMario::OnCollisionWithBrownGoomba(LPCOLLISIONEVENT e)
 			{
 				MarioIsHit();
 			}
+	}
+}
+void CMario::OnCollisionWithBrick(LPCOLLISIONEVENT e)
+{
+	CBrick* brick = dynamic_cast<CBrick*>(e->obj);
+	if (e->ny > 0 && (level == MARIO_LEVEL_BIG || MARIO_LEVEL_RACCOON))
+	{
+		brick->Broken();
+	}
+	else if (e->nx != 0 && (isAttackingLeft || isAttackingRight))
+	{
+		brick->Broken();
 	}
 }
 void CMario::OnCollisionWithPlantEnemy(LPCOLLISIONEVENT e)
@@ -201,6 +215,7 @@ void CMario::OnCollisionWithRedGoomba(LPCOLLISIONEVENT e)
 		else
 		{
 			redGoomba->SetState(RED_GOOMBA_STATE_DIE);
+			vy = -MARIO_JUMP_DEFLECT_SPEED;
 		}
 	}
 	else // hit by Goomba

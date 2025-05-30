@@ -8,8 +8,20 @@ void CBrick::Render()
 
 void CBrick::GetBoundingBox(float &l, float &t, float &r, float &b)
 {
-	l = x - BRICK_BBOX_WIDTH/2;
-	t = y - BRICK_BBOX_HEIGHT/2;
-	r = l + BRICK_BBOX_WIDTH;
-	b = t + BRICK_BBOX_HEIGHT;
+	l = x - BRICK_WIDTH/2;
+	t = y - BRICK_HEIGHT/2;
+	r = l + BRICK_WIDTH;
+	b = t + BRICK_HEIGHT;
+}
+void CBrick::Broken()
+{
+	isDeleted = true;
+	CPieceOfBrick* pieceOfBrick1 = new CPieceOfBrick(x, y, PIECE_OF_BRICK_LEFT_TOP_DIRECTION);
+	CPieceOfBrick* pieceOfBrick2 = new CPieceOfBrick(x, y, PIECE_OF_BRICK_LEFT_BOTTOM_DIRECTION);
+	CPieceOfBrick* pieceOfBrick3 = new CPieceOfBrick(x, y, PIECE_OF_BRICK_RIGHT_TOP_DIRECTION);
+	CPieceOfBrick* pieceOfBrick4 = new CPieceOfBrick(x, y, PIECE_OF_BRICK_RIGHT_BOTTOM_DIRECTION);
+	dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->AddObject(pieceOfBrick1);
+	dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->AddObject(pieceOfBrick2);
+	dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->AddObject(pieceOfBrick3);
+	dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->AddObject(pieceOfBrick4);
 }

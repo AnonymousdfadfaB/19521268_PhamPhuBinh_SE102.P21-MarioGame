@@ -301,10 +301,6 @@ void CPlayScene::Update(DWORD dt)
 
 	if (cx < 0) cx = 0;
 	if (cx > 2705) cx = 2705;
-	//229
-
-	//	cy = cy - game->GetBackBufferHeight() + 14;
-	//if (cy < 220) cy = 300;
 	CGame::GetInstance()->SetCamPos(cx, cy);
 	PurgeDeletedObjects();
 }

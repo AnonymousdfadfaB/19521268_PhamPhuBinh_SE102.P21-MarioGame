@@ -33,7 +33,7 @@ public:
 		this->width = width;
 		this->height = height;
 		this->spriteId = spriteId;
-
+		this->typeContent = typeContent;
 		switch (typeContent)
 		{
 		case PIPE_CONTENT_NONE:
