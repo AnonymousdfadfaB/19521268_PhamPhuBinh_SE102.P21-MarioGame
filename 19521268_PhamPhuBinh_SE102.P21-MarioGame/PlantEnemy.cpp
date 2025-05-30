@@ -1,6 +1,6 @@
 
 #include "PlantEnemy.h"
-
+#include "cmath"
 CPlantEnemy::CPlantEnemy(float x, float y, int type, CGameObject* pipe):CGameObject(x, y)
 {
 	this->type = type;
@@ -95,7 +95,7 @@ void CPlantEnemy::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		break;
 	}
 
-	if (canFire && state == ATTACK_STATE && !alreadyFire)
+	if (canFire && state == ATTACK_STATE && !alreadyFire && HaveTarget())
 	{
 		CMario* mario =(CMario*)((CPlayScene*)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
 		((CPlayScene*)CGame::GetInstance()->GetCurrentScene())->AddObject(new CFireball(x, y, mario->GetX(), mario->GetY())); //CFireBall(x, y)
@@ -203,6 +203,13 @@ int CPlantEnemy::GetMarioRelativePosition()
 	else
 		position += 2;
 	return position;
+}
+bool CPlantEnemy::HaveTarget() {
+	CMario* mario = (CMario*)((CPlayScene*)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
+	if (std::abs(x - mario->GetX()) <= 200 && std::abs(y - mario->GetY()) <= 200)
+		return true;
+	return false;
+
 }
 
 

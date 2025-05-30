@@ -71,7 +71,7 @@ protected:
 
 	virtual void OnCollisionWith(LPCOLLISIONEVENT e);
 	int GetMarioRelativePosition();
-
+	bool HaveTarget();
 public:
 	CPlantEnemy(float x, float y, int type, CGameObject* pipe);
 	virtual void SetState(int state);
