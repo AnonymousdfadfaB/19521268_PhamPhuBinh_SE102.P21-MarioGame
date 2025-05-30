@@ -281,5 +281,14 @@ public:
 		}
 
 	}
-
+	bool IsHoldingShell() { return isHoldingShell; }
+	void KickShell() 
+	{
+		if (this->nx > 0)
+			shell->SetState(KOOPA_STATE_SHELL_SLIDING_RIGHT);
+		else
+			shell->SetState(KOOPA_STATE_SHELL_SLIDING_LEFT);
+		shell = NULL;
+		isHoldingShell = false;
+	}
 };

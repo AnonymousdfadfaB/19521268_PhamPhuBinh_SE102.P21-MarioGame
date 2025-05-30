@@ -58,6 +58,12 @@ void CSampleKeyHandler::OnKeyUp(int KeyCode)
 	case DIK_S:
 		mario->SetState(MARIO_STATE_RELEASE_JUMP);
 		break;
+	case DIK_A:
+		if (mario->IsHoldingShell())
+		{
+			mario->KickShell();
+		}
+		break;
 	case DIK_DOWN:
 		mario->SetState(MARIO_STATE_SIT_RELEASE);
 		break;

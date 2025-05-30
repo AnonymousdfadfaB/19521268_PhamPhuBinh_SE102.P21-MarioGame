@@ -69,6 +69,8 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			attack_start = -1;
 		}
 	}
+	if (x < 10) x = 10;
+	if (x > 3000) x = 3000;
 }
 
 void CMario::OnNoCollision(DWORD dt)
@@ -578,7 +580,11 @@ void CMario::Render()
 
 	//RenderBoundingBox();
 	
-	DebugOutTitle(L"Coins: %d", coin);
+	//DebugOutTitle(L"Coins: %d", coin);
+	float cx, cy;
+	CGame::GetInstance()->GetCamPos(cx, cy);
+	DebugOutTitle(L"x: %f", x);
+	//DebugOutTitle(L"y: %d", y);
 }
 
 void CMario::SetState(int state)
