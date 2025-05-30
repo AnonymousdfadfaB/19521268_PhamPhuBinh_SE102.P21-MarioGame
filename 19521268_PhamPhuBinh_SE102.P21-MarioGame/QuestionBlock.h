@@ -4,8 +4,8 @@
 #include "Animation.h"
 #include "Animations.h"
 #include "Mario.h"
-#include "Scene.h"
 #include "PlayScene.h"
+#include "Game.h"
 
 #define ID_ANI_QUESTIONBLOCK 30010
 #define ID_SPRITE_QUESTIONBLOCK_AFTER_HIT 30005
@@ -14,6 +14,7 @@
 #define COIN 101
 #define RED_MUSHROOM_OR_LEAF 102
 #define GREEN_MUSHROOM 302
+#define QUESTIONBLOCK_CONTENT_TYPE_NOPE 104
 
 
 
@@ -32,26 +33,7 @@ public:
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects = NULL);
 	bool IsHit() { return hit; }
 	int IsBlocking() { return 1; }
-	void Hit() 
-	{ 
-		hit = true; 
-		CMario* mario = (CMario*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
-		switch (contentType)
-		{
-		case COIN:
-			GenerateCoin();
-			break;
-		case RED_MUSHROOM_OR_LEAF:
-			if (mario->IsSmall())
-				GenerateRedMushroom();
-			else
-				GenerateLeaf();
-			break;
-		case GREEN_MUSHROOM:
-			GenerateGreenMushroom();
-			break;
-		}
-	}
+	void Hit();
 	bool IsQuestionBlockContainCoin() { return contentType == COIN; }
 	void GenerateCoin();
 	void GenerateRedMushroom(); 

@@ -121,8 +121,8 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		break;
 	case OBJECT_TYPE_QUESTIONBLOCK:
 	{
-		int t = atof(tokens[3].c_str());
-		obj = new CQuestionBlock(x, y, t);
+		int contentType = atoi(tokens[3].c_str());
+		obj = new CQuestionBlock(x, y, contentType);
 		break;
 	}
 
@@ -136,7 +136,12 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		int typeContent = atoi(tokens[6].c_str());
 		obj = new CPipe(x, y, width, height, spriteId, typeContent); break;
 	}
-	case OBJECT_TYPE_BRICK: obj = new CBrick(x,y); break;
+	case OBJECT_TYPE_BRICK:
+	{
+		int contentType = atoi(tokens[3].c_str());
+		obj = new CBrick(x, y, contentType);
+		break;
+	}
 	case OBJECT_TYPE_WOODBLOCK: obj = new CWoodBlock(x, y); break;
 	case OBJECT_TYPE_COIN: obj = new CCoin(x, y); break;
 	case OBJECT_TYPE_CLOUD: obj = new CCloud(x, y); break;

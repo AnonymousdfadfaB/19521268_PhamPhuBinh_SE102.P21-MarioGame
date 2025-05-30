@@ -46,3 +46,25 @@ void CQuestionBlock::GetBoundingBox(float& l, float& t, float& r, float& b)
 	r = l + QUESTIONBLOCK_BBOX_WIDTH;
 	b = t + QUESTIONBLOCK_BBOX_HEIGHT;
 }
+void CQuestionBlock::Hit()
+{
+	if (hit)
+		return;
+	hit = true;
+	CMario* mario = (CMario*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
+	switch (contentType)
+	{
+	case COIN:
+		GenerateCoin();
+		break;
+	case RED_MUSHROOM_OR_LEAF:
+		if (mario->IsSmall())
+			GenerateRedMushroom();
+		else
+			GenerateLeaf();
+		break;
+	case GREEN_MUSHROOM:
+		GenerateGreenMushroom();
+		break;
+	}
+}
