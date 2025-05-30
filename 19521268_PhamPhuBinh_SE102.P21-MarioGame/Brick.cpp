@@ -1,5 +1,5 @@
 #include "Brick.h"
-
+#include "FireBall.h"
 void CBrick::Render()
 {
 	CAnimations* animations = CAnimations::GetInstance();
