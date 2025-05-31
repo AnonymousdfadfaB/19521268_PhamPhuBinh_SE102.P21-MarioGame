@@ -1,8 +1,10 @@
 #include "Koopa.h"
 #include "BrownGoomba.h"
+#include "RedGoomba.h"
 #include "QuestionBlock.h"
 #include "Game.h"
 #include "Scene.h"
+#include "PlantEnemy.h"
 #include "PlayScene.h"
 //#include "Mario.h"
 CKoopa::CKoopa(float x, float y, float patrolDistance, int state, int type) :CGameObject(x, y)
@@ -116,12 +118,26 @@ void CKoopa::OnCollisionWith(LPCOLLISIONEVENT e)
 	}
 	if (dynamic_cast<CBrownGoomba*>(e->obj))
 		OnCollisionWithBrownGoomba(e);
+	else if (dynamic_cast<CRedGoomba*>(e->obj))
+		OnCollisionWithRedGoomba(e);
 	else if (dynamic_cast<CQuestionBlock*>(e->obj))
 		OnCollisionWithQuestionBlock(e);
 	else if (dynamic_cast<CKoopa*>(e->obj))
 		OnCollisionWithKoopa(e);
+	else if (dynamic_cast<CPlantEnemy*>(e->obj))
+		OnCollisionWithPlantEnemy(e);
+	else if (dynamic_cast<CBrick*>(e->obj))
+		OnCollisionWithBrick(e);
 }
-
+void CKoopa::OnCollisionWithBrick(LPCOLLISIONEVENT e)
+{
+	if (state == KOOPA_STATE_SHELL_SLIDING_LEFT || state == KOOPA_STATE_SHELL_SLIDING_RIGHT)
+	{
+		CBrick* brick = dynamic_cast<CBrick*>(e->obj);
+		if (e->nx != 0)
+			brick->Broken();
+	}
+}
 
 void CKoopa::OnCollisionWithBrownGoomba(LPCOLLISIONEVENT e)
 {
@@ -131,6 +147,17 @@ void CKoopa::OnCollisionWithBrownGoomba(LPCOLLISIONEVENT e)
 		if (brownGoomba->GetState() != BROWN_GOOMBA_STATE_DIE)
 		{
 			brownGoomba->SetState(BROWN_GOOMBA_STATE_DIE);
+		}
+	}
+}
+void CKoopa::OnCollisionWithRedGoomba(LPCOLLISIONEVENT e)
+{
+	if (state == KOOPA_STATE_SHELL_SLIDING_LEFT || state == KOOPA_STATE_SHELL_SLIDING_RIGHT)
+	{
+		CRedGoomba* redGoomba = dynamic_cast<CRedGoomba*>(e->obj);
+		if (redGoomba->GetState() != BROWN_GOOMBA_STATE_DIE)
+		{
+			redGoomba->SetState(RED_GOOMBA_STATE_DIE);
 		}
 	}
 }
@@ -144,6 +171,14 @@ void CKoopa::OnCollisionWithQuestionBlock(LPCOLLISIONEVENT e)
 			questionBlock->Hit();
 	}
 
+}
+void CKoopa::OnCollisionWithPlantEnemy(LPCOLLISIONEVENT e)
+{
+	if (state == KOOPA_STATE_SHELL_SLIDING_LEFT || state == KOOPA_STATE_SHELL_SLIDING_RIGHT)
+	{
+		CPlantEnemy* plantEnemy = dynamic_cast<CPlantEnemy*>(e->obj);
+		plantEnemy->SetState(DIE_STATE);
+	}
 }
 void CKoopa::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 {

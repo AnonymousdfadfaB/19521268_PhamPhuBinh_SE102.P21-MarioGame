@@ -61,8 +61,11 @@ protected:
 
 	void OnCollisionWith(LPCOLLISIONEVENT e);
 	void OnCollisionWithBrownGoomba(LPCOLLISIONEVENT e);
+	void OnCollisionWithRedGoomba(LPCOLLISIONEVENT e);
 	void OnCollisionWithQuestionBlock(LPCOLLISIONEVENT e);
 	void OnCollisionWithKoopa(LPCOLLISIONEVENT e);
+	void OnCollisionWithPlantEnemy(LPCOLLISIONEVENT e);
+	void OnCollisionWithBrick(LPCOLLISIONEVENT e);
 	int GetAniIdRedKoopa();
 	int GetAniIdGreenKoopa();
 public:

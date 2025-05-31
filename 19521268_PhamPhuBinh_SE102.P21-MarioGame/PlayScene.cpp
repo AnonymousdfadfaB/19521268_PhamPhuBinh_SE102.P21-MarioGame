@@ -368,3 +368,36 @@ void CPlayScene::PurgeDeletedObjects()
 		std::remove_if(objects.begin(), objects.end(), CPlayScene::IsGameObjectDeleted),
 		objects.end());
 }
+void CPlayScene::PressPButton()
+{
+	//delete Brick
+	vector<LPGAMEOBJECT>::iterator it = objects.begin();
+	while (it != objects.end())
+	{
+		LPGAMEOBJECT obj = *it;
+		if (dynamic_cast<CBrick*>(obj) != NULL)
+		{
+			obj->Delete();
+		}
+			++it;
+	}
+	//Generate Coin
+	for (int i = 0; i < 7; i++)
+	{
+		AddObject(new CCoin(2140 + i * 16, 407));
+	}
+	for (int i = 0; i < 5; i++)
+	{
+		AddObject(new CCoin(2156 + i * 16, 391));
+	}
+	for (int i = 0; i < 3; i++)
+	{
+		AddObject(new CCoin(2172 + i * 16, 375));
+	}
+	for (int i = 0; i < 2; i++)
+	{
+		AddObject(new CCoin(2286 + i * 16, 407));
+	}
+	AddObject(new CCoin(2286, 391));
+
+}

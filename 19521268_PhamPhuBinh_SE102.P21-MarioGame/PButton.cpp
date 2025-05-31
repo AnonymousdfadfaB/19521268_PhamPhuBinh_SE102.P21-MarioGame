@@ -1,6 +1,7 @@
 #pragma once
 #include "PButton.h"
-
+#include "Game.h"
+#include "PlayScene.h"
 CPButton::CPButton(float x, float y) : CGameObject(x, y)
 {
 	pressed = false;
@@ -37,6 +38,7 @@ void CPButton::PressOn()
 	pressed = TRUE;
 	y += (UNPRESS_PBUTTON_HEIGHT - PRESS_PBUTTON_HEIGHT) / 2;
 	//impact
+	dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->PressPButton();
 }
 int CPButton::IsDirectionColliable(float nx, float ny)
 {
