@@ -18,6 +18,7 @@ sceneobject.txt
 woodblock.txt
 victoryflower.txt
 pieceofbrick.txt
+pbutton.txt
 #
 [OBJECTS]
 # type	x	y	extra_settings per object type
@@ -179,7 +180,7 @@ pieceofbrick.txt
 
 1	2286	391	1
 #EXAMPLE BRICK
-1	100	407	2
+1	160	407	2
 #Cloud
 14	1427	182
 14	1443	182

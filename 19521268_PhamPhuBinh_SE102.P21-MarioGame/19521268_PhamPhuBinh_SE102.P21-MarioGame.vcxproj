@@ -149,6 +149,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Mario.cpp" />
     <ClCompile Include="Mushroom.cpp" />
+    <ClCompile Include="PButton.cpp" />
     <ClCompile Include="PieceOfBrick.cpp" />
     <ClCompile Include="PlantEnemy.cpp" />
     <ClCompile Include="Pipe.cpp" />
@@ -185,6 +186,7 @@
     <ClInclude Include="Leaf.h" />
     <ClInclude Include="Mario.h" />
     <ClInclude Include="Mushroom.h" />
+    <ClInclude Include="PButton.h" />
     <ClInclude Include="PieceOfBrick.h" />
     <ClInclude Include="PlantEnemy.h" />
     <ClInclude Include="Pipe.h" />
@@ -216,6 +218,7 @@
     <Text Include="mario-sample.txt" />
     <Text Include="mario.txt" />
     <Text Include="mushroom.txt" />
+    <Text Include="pbutton.txt" />
     <Text Include="pieceofbrick.txt" />
     <Text Include="pipe.txt" />
     <Text Include="plant.txt" />

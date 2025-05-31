@@ -117,6 +117,8 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithVictoryFlower(e);
 	else if (dynamic_cast<CBrick*>(e->obj))
 		OnCollisionWithBrick(e);
+	else if (dynamic_cast<CPButton*>(e->obj))
+		OnCollisionWithPButton(e);
 }
 
 void CMario::OnCollisionWithBrownGoomba(LPCOLLISIONEVENT e)
@@ -159,6 +161,11 @@ void CMario::OnCollisionWithBrick(LPCOLLISIONEVENT e)
 	{
 		brick->Broken();
 	}
+}
+void CMario::OnCollisionWithPButton(LPCOLLISIONEVENT e)
+{
+	CPButton* PButton = dynamic_cast<CPButton*>(e->obj);
+	PButton->PressOn();
 }
 void CMario::OnCollisionWithPlantEnemy(LPCOLLISIONEVENT e)
 {

@@ -27,6 +27,6 @@ void CBrick::Broken()
 	if (contentType == BRICK_CONTENT_TYPE_PBUTTON)
 	{
 		dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->AddObject(new CQuestionBlock(x, y, QUESTIONBLOCK_CONTENT_TYPE_NOPE, true));
-		//dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->AddObject(new CPButton(x, y - QUESTIONBLOCK_BBOX_WIDTH / 2 - PBUTTON_WIDTH / 2));
+		dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->AddObject(new CPButton(x, y - QUESTIONBLOCK_BBOX_WIDTH / 2 - PBUTTON_WIDTH / 2));
 	}
 }

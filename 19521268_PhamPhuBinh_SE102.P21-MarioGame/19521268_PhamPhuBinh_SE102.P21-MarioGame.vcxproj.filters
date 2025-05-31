@@ -123,6 +123,9 @@
     <ClCompile Include="PieceOfBrick.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="PButton.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h">
@@ -233,6 +236,9 @@
     <ClInclude Include="PieceOfBrick.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="PButton.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="brick.txt" />
@@ -257,6 +263,7 @@
     <Text Include="woodblock.txt" />
     <Text Include="victoryflower.txt" />
     <Text Include="pieceofbrick.txt" />
+    <Text Include="pbutton.txt" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="mario.ico">

@@ -7,6 +7,7 @@
 #include "Scene.h"
 #include "PlayScene.h"
 #include "QuestionBlock.h"
+#include "PButton.h"
 #define ID_ANI_BRICK 10000
 #define BRICK_WIDTH 16
 #define BRICK_HEIGHT 16

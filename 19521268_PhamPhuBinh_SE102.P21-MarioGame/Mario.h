@@ -3,7 +3,7 @@
 #include "Koopa.h"
 #include "Animation.h"
 #include "Animations.h"
-
+#include "PButton.h"
 #include "debug.h"
 
 #define MARIO_WALKING_SPEED		0.1f
@@ -175,6 +175,7 @@ class CMario : public CGameObject
 	void OnCollisionWithFireBall(LPCOLLISIONEVENT e);
 	void OnCollisionWithVictoryFlower(LPCOLLISIONEVENT e);
 	void OnCollisionWithBrick(LPCOLLISIONEVENT e);
+	void OnCollisionWithPButton(LPCOLLISIONEVENT e);
 	int GetAniIdBig();
 	int GetAniIdSmall();
 	int GetAniIdRaccoon();
