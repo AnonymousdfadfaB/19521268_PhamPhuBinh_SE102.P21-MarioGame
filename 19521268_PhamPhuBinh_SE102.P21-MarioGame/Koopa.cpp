@@ -4,7 +4,7 @@
 #include "Game.h"
 #include "Scene.h"
 #include "PlayScene.h"
-#include "Mario.h"
+//#include "Mario.h"
 CKoopa::CKoopa(float x, float y, float patrolDistance, int state, int type) :CGameObject(x, y)
 {
 	isHeld = false;
@@ -302,3 +302,5 @@ void CKoopa::HeldByMario()
 {
 	isHeld = true;
 }
+int CKoopa::IsCollidable() { return 1; }
+int CKoopa::IsBlocking() { return 0; }

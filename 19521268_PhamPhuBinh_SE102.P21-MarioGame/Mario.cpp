@@ -207,7 +207,7 @@ void CMario::OnCollisionWithRedGoomba(LPCOLLISIONEVENT e)
 		return;
 	if (isAttackingLeft || isAttackingRight)
 	{
-		redGoomba->SetState(BROWN_GOOMBA_STATE_DIE);
+		redGoomba->SetState(RED_GOOMBA_STATE_DIE);
 		return;
 	}
 	// jump on top >> kill Goomba and deflect a bit 
