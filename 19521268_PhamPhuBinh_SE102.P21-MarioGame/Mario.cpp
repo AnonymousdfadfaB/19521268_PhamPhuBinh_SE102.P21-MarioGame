@@ -252,9 +252,14 @@ void CMario::OnCollisionWithPortal(LPCOLLISIONEVENT e)
 void CMario::OnCollisionWithQuestionBlock(LPCOLLISIONEVENT e)
 {
 	CQuestionBlock* questionBlock = dynamic_cast<CQuestionBlock*>(e->obj);
-
+	if ((isAttackingLeft || isAttackingRight) && e->nx != 0 && !questionBlock->IsHit())
+	{
+		questionBlock->Hit();
+		if (questionBlock->IsQuestionBlockContainCoin())
+			coin++;
+	}
 	// jump on top >> kill Goomba and deflect a bit 
-	if (!questionBlock->IsHit() && e->ny > 0) {
+	else if (!questionBlock->IsHit() && e->ny > 0) {
 		questionBlock->Hit();
 		if (questionBlock->IsQuestionBlockContainCoin())
 			coin++;
