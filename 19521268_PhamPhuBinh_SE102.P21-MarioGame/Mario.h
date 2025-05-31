@@ -259,7 +259,7 @@ public:
 		{
 			if (level == MARIO_LEVEL_RACCOON)
 			{
-				level = MARIO_LEVEL_BIG;
+				level = MARIO_LEVEL_SMALL;
 				StartUntouchable();
 			}
 			else if (level == MARIO_LEVEL_BIG)
