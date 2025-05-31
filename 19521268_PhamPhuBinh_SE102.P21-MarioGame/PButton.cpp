@@ -34,11 +34,12 @@ void CPButton::GetBoundingBox(float& l, float& t, float& r, float& b)
 void CPButton::PressOn()
 {
 	if (pressed) return;
-	pressed = true;
+	pressed = TRUE;
 	y += (UNPRESS_PBUTTON_HEIGHT - PRESS_PBUTTON_HEIGHT) / 2;
 	//impact
 }
 int CPButton::IsDirectionColliable(float nx, float ny)
 {
-	if (ny == -1) return 1;
+	if (nx == 0 && ny == -1) return 1;
+	else return 0;
 }
