@@ -1,11 +1,21 @@
 #pragma once
+#include "Game.h"
 #include "GameObject.h"
 #include "Koopa.h"
 #include "Animation.h"
 #include "Animations.h"
 #include "PButton.h"
 #include "debug.h"
-
+#include "BrownGoomba.h"
+#include "Coin.h"
+#include "Portal.h"
+#include "QuestionBlock.h"
+#include "Collision.h"
+#include "Mushroom.h"
+#include "Leaf.h"
+#include "Koopa.h"
+#include "PlantEnemy.h"
+#include "VictoryFlower.h"
 #define MARIO_WALKING_SPEED		0.1f
 #define MARIO_RUNNING_SPEED		0.2f
 
@@ -181,25 +191,7 @@ class CMario : public CGameObject
 	int GetAniIdRaccoon();
 
 public:
-	CMario(float x, float y) : CGameObject(x, y)
-	{
-		isSitting = false;
-		maxVx = 0.0f;
-		ax = 0.0f;
-		ay = MARIO_GRAVITY; 
-
-		level = MARIO_LEVEL_RACCOON;
-		untouchable = 0;
-		untouchable_start = -1;
-		isOnPlatform = false;
-		coin = 0;
-		up = 3;
-		isHoldingShell = false;
-		shell = NULL;
-		isAttackingLeft = false;
-		isAttackingRight = false;
-		attack_start = -1;
-	}
+	CMario(float x, float y);
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	void Render();
 	void SetState(int state);

@@ -1,19 +1,27 @@
 #include <algorithm>
-#include "debug.h"
 
 #include "Mario.h"
-#include "Game.h"
 
-#include "BrownGoomba.h"
-#include "Coin.h"
-#include "Portal.h"
-#include "QuestionBlock.h"
-#include "Collision.h"
-#include "Mushroom.h"
-#include "Leaf.h"
-#include "Koopa.h"
-#include "PlantEnemy.h"
-#include "VictoryFlower.h"
+CMario::CMario(float x, float y) : CGameObject(x, y)
+{
+	isSitting = false;
+	maxVx = 0.0f;
+	ax = 0.0f;
+	ay = MARIO_GRAVITY;
+
+	level = MARIO_LEVEL_RACCOON;
+	untouchable = 0;
+	untouchable_start = -1;
+	isOnPlatform = false;
+	coin = 0;
+	up = 3;
+	isHoldingShell = false;
+	shell = NULL;
+	isAttackingLeft = false;
+	isAttackingRight = false;
+	attack_start = -1;
+}
+
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
 	vy += ay * dt;
