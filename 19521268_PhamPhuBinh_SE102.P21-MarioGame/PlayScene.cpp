@@ -116,36 +116,70 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		}
 		obj = new CMario(x, y);
 		player = (CMario*)obj;
-
+		objects.push_back(obj);
 		DebugOut(L"[INFO] Player object has been created!\n");
 		break;
 	case OBJECT_TYPE_QUESTIONBLOCK:
 	{
 		int contentType = atoi(tokens[3].c_str());
 		obj = new CQuestionBlock(x, y, contentType);
+		objects.push_back(obj);
 		break;
 	}
 
-	case OBJECT_TYPE_BROWN_GOOMBA: obj = new CBrownGoomba(x,y); break;
-	case OBJECT_TYPE_RED_GOOMBA: obj = new CRedGoomba(x, y); break;
+	case OBJECT_TYPE_BROWN_GOOMBA:
+	{
+		obj = new CBrownGoomba(x, y);
+		waitObjects.push_back(obj);
+		break;
+	}
+	case OBJECT_TYPE_RED_GOOMBA:
+	{
+		obj = new CRedGoomba(x, y);
+		waitObjects.push_back(obj);
+		break;
+	}
 	case OBJECT_TYPE_PIPE:
 	{
 		float width = (float)atof(tokens[3].c_str());
 		float height = (float)atof(tokens[4].c_str());
 		int spriteId = atoi(tokens[5].c_str());
 		int typeContent = atoi(tokens[6].c_str());
-		obj = new CPipe(x, y, width, height, spriteId, typeContent); break;
+		obj = new CPipe(x, y, width, height, spriteId, typeContent);
+		objects.push_back(obj);
+		break;
 	}
 	case OBJECT_TYPE_BRICK:
 	{
 		int contentType = atoi(tokens[3].c_str());
 		obj = new CBrick(x, y, contentType);
+		objects.push_back(obj);
 		break;
 	}
-	case OBJECT_TYPE_WOODBLOCK: obj = new CWoodBlock(x, y); break;
-	case OBJECT_TYPE_COIN: obj = new CCoin(x, y); break;
-	case OBJECT_TYPE_CLOUD: obj = new CCloud(x, y); break;
-	case OBJECT_TYPE_VICTORYFLOWER: obj = new CVictoryFlower(x, y); break;
+	case OBJECT_TYPE_WOODBLOCK:
+	{
+		obj = new CWoodBlock(x, y);
+		objects.push_back(obj);
+		break;
+	}
+	case OBJECT_TYPE_COIN:
+	{
+		obj = new CCoin(x, y);
+		objects.push_back(obj); 
+		break;
+	}
+	case OBJECT_TYPE_CLOUD:
+	{
+		obj = new CCloud(x, y);
+		objects.push_back(obj);
+		break;
+	}
+	case OBJECT_TYPE_VICTORYFLOWER:
+	{
+		obj = new CVictoryFlower(x, y);
+		objects.push_back(obj);
+		break;
+	}
 	case OBJECT_TYPE_PLATFORM:
 	{
 
@@ -161,7 +195,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 			cell_width, cell_height, length,
 			sprite_begin, sprite_middle, sprite_end
 		);
-
+		objects.push_back(obj);
 		break;
 	}
 	case OBJECT_TYPE_CARD:
@@ -171,12 +205,14 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		float height = (float)atof(tokens[4].c_str());
 		int spriteId = atoi(tokens[5].c_str());
 		obj = new CCard(x, y, width, height, spriteId);
+		objects.push_back(obj);
 		break;
 	}
 	case OBJECT_TYPE_SCENEOBJECT:
 	{
 		int spriteId = atoi(tokens[3].c_str());
 		obj = new CSceneObject(x, y,spriteId);
+		objects.push_back(obj);
 		break;
 	}
 	case OBJECT_TYPE_PORTAL:
@@ -193,6 +229,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		int state = atoi(tokens[4].c_str());
 		int type = atoi(tokens[5].c_str());
 		obj = new CKoopa(x, y, patrolDistance, state, type);
+		waitObjects.push_back(obj);
 		break;
 	}
 	default:
@@ -200,11 +237,6 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		return;
 	}
 
-	// General object setup
-	obj->SetPosition(x, y);
-
-
-	objects.push_back(obj);
 }
 
 void CPlayScene::LoadAssets(LPCWSTR assetFile)
@@ -281,7 +313,16 @@ void CPlayScene::Update(DWORD dt)
 {
 	// We know that Mario is the first object in the list hence we won't add him into the colliable object list
 	// TO-DO: This is a "dirty" way, need a more organized way 
-
+	//Add wait object to scene if satisfy
+	for (auto it = waitObjects.begin(); it != waitObjects.end(); ) {
+		if (abs((*it)->GetX() - player->GetX()) <= 320) {
+			objects.push_back(*it);    // Transfer to active objects
+			it = waitObjects.erase(it); // Erase and get next valid iterator
+		}
+		else {
+			++it;  // Move to next if not erased
+		}
+	}
 	vector<LPGAMEOBJECT> coObjects;
 	for (size_t i = 1; i < objects.size(); i++)
 	{
