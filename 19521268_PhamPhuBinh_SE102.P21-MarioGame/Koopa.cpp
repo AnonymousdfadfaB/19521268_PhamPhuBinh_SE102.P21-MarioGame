@@ -12,6 +12,8 @@ CKoopa::CKoopa(float x, float y, float patrolDistance, int state, int type) :CGa
 	isHeld = false;
 	die_start = -1;
 	shell_start = -1;
+	isReturnFromShell = 0;
+	return_from_shell_start = -1;
 	if (type == KOOPA_TYPE_RED)
 	{
 		leftBoundary = x - patrolDistance / 2;
@@ -30,8 +32,16 @@ void CKoopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	{
 		isDeleted = true;
 	}
-	if (state == KOOPA_STATE_SHELL && now - shell_start > KOOPA_RETURN_WALKING_INTERVAL)
+	else if (state == KOOPA_STATE_SHELL && !isReturnFromShell && now - shell_start > KOOPA_RETURN_WALKING_INTERVAL)
+	{	
+		shell_start = -1;
+		isReturnFromShell = true;
+		return_from_shell_start = now;
+	}
+	else if (isReturnFromShell == true && now - return_from_shell_start > KOOPA_RETURN_FROM_SHELL_INTERVAL)
 	{
+		isReturnFromShell = false;
+		return_from_shell_start = -1;
 		(int)now % 2 == 0 ? SetState(KOOPA_STATE_WALKING_RIGHT) : SetState(KOOPA_STATE_WALKING_LEFT);
 	}
 	if (isHeld == true && state != KOOPA_STATE_SHELL)
@@ -262,7 +272,11 @@ void CKoopa::SetState(int state)
 int CKoopa::GetAniIdRedKoopa()
 {
 	int aniId;
-	if (state == KOOPA_STATE_WALKING_LEFT)
+	if (isReturnFromShell)
+	{
+		aniId = ID_ANI_RED_KOOPA_RETURN_FROM_SHELL;
+	}
+	else if (state == KOOPA_STATE_WALKING_LEFT)
 	{
 		aniId = ID_ANI_RED_KOOPA_WALKING_LEFT;
 	}
@@ -299,7 +313,11 @@ int CKoopa::GetAniIdRedKoopa()
 int CKoopa::GetAniIdGreenKoopa()
 {
 	int aniId;
-	if (state == KOOPA_STATE_WALKING_LEFT)
+	if (isReturnFromShell)
+	{
+		aniId = ID_ANI_GREEN_KOOPA_RETURN_FROM_SHELL;
+	}
+	else if (state == KOOPA_STATE_WALKING_LEFT)
 	{
 		aniId = ID_ANI_GREEN_KOOPA_WALKING_LEFT;
 	}
